@@ -1,59 +1,178 @@
-import IndianGpt_logo from "../assets/indian_icon.png";
-import { useEffect, useState } from "react";
+import purpleGPT2 from "../assets/purpleGPT2.0.png";
+import { useContext, useState, useEffect } from "react";
+import { ThemeContext } from "../context/ThemeContext.jsx";
 import axios from "axios";
-
 export const Sidebar = () => {
-  const [threads, setThreads] = useState([]);
+  const { theme } = useContext(ThemeContext);
+  const [chatHistory, setChatHistory] = useState([]);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+  const fetchHistory = async () => {
+    try {
+      const { data } = await axios.get(`${backendUrl}/thread`);
+      setChatHistory(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchThread = async () => {
-      const { data } = await axios.get(
-        import.meta.env.VITE_BACKEND_URL + "/thread"
-      );
-      console.log(data);
-      setThreads(data);
-    };
-
-    fetchThread();
+    fetchHistory();
   }, []);
 
   return (
     <>
-      <div className="sm:w-76 h-full border-r px-4 py-2">
-        <div className="flex items-center justify-between mb-3">
-          <img
-            className="w-12 h-12 rounded-full bg-purple-300"
-            src={IndianGpt_logo}
-            alt=""
-          />
-          <i class="fa-solid fa-xmark text-2xl"></i>
-        </div>
-        <hr className="text-gray-400 mb-3" />
+      <div className="p-2 w-full ">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A]">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 200 200"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="100"
+                cy="100"
+                r="85"
+                stroke="#8B46E8"
+                stroke-width="14"
+                stroke-linecap="round"
+              />
 
-        <div className="mb-4">
-          <button className="w-full py-2 px-4 rounded-md flex items-center hover:bg-gray-200">
-            <i class="fa-solid fa-plus mr-1"></i> <span>New Chat</span>
-          </button>
-        </div>
+              <path
+                d="M70 135 L70 85 
+           Q70 60 100 60 
+           Q130 60 130 85 
+           Q130 105 100 105 
+           L90 105 
+           Q70 105 70 135 
+           Z"
+                stroke="#8B46E8"
+                stroke-width="16"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                fill="none"
+              />
 
-        <h1 className="mb-2 text-gray-600 text-sm px-4">
-          Your chats <i class="fa-solid fa-angle-down"></i>
-        </h1>
+              <line
+                x1="100"
+                y1="105"
+                x2="135"
+                y2="105"
+                stroke="#8B46E8"
+                stroke-width="10"
+                stroke-linecap="round"
+              />
 
-        <div className="h-4/6 overflow-y-auto scroll-smooth px-2 mb-2">
-          <div className="flex flex-col  ">
-            {threads.map((thread) => (
-              <div className="py-2 hover:bg-gray-200 rounded-md cursor-pointer">
-                <p className="px-2">{thread.title}</p>
-              </div>
-            ))}
+              <circle cx="145" cy="105" r="12" fill="#8B46E8" />
+            </svg>
+          </div>
+          <div className="flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A]">
+            <svg
+              width="26"
+              height="32"
+              viewBox="0 0 38 30"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="cursor-pointer"
+            >
+              <rect
+                x="2"
+                y="2"
+                width="34"
+                height="26"
+                rx="7"
+                stroke={theme === "dark" ? "#ffffff" : "#000000"}
+                stroke-width="3"
+              />
+
+              <line
+                x1="15"
+                y1="2"
+                x2="15"
+                y2="28"
+                stroke={theme === "dark" ? "#ffffff" : "#000000"}
+                stroke-width="3"
+              />
+            </svg>
           </div>
         </div>
 
-        <div className="mb-4 mt-4">
-          <button className="w-full py-2 px-4 rounded-md flex items-center hover:bg-gray-200 gap-2">
-            <img className="w-12 h-12" src={IndianGpt_logo} alt="" /> <span>IndianGPT</span>
+        <div className="w-full flex items-center justify-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2">
+          <button>
+            <i class="fa-solid fa-pencil"></i> New Chat
           </button>
+        </div>
+
+        <div className="p-2 text-black dark:text-white text-sm mb-4">
+          <p>
+            Your chats <i class="fa-solid fa-angle-right"></i>{" "}
+          </p>
+        </div>
+
+        <div className="overflow-y-auto no-scrollbar scroll-smooth h-[68vh] mb-2">
+          {chatHistory.map((chat) => {
+            return (
+              <div className="w-full flex items-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg">
+                <p>{chat.title}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="flex w-full items-center gap-3 mt-4 ">
+          <div className="flex items-center justify-between">
+            <div className="flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A]">
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 200 200"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="85"
+                  stroke="#8B46E8"
+                  stroke-width="14"
+                  stroke-linecap="round"
+                />
+
+                <path
+                  d="M70 135 L70 85 
+                    Q70 60 100 60 
+                    Q130 60 130 85 
+                    Q130 105 100 105 
+                    L90 105 
+                    Q70 105 70 135 
+                    Z"
+                  stroke="#8B46E8"
+                  stroke-width="16"
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
+                  fill="none"
+                />
+
+                <line
+                  x1="100"
+                  y1="105"
+                  x2="135"
+                  y2="105"
+                  stroke="#8B46E8"
+                  stroke-width="10"
+                  stroke-linecap="round"
+                />
+
+                <circle cx="145" cy="105" r="12" fill="#8B46E8" />
+              </svg>
+            </div>
+          </div>
+          <div className="flex text-xl font-bold text-black dark:text-white">
+            <h1>PurpleGPT</h1>
+          </div>
         </div>
       </div>
     </>
