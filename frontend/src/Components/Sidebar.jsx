@@ -36,20 +36,20 @@ export const Sidebar = () => {
                 cx="100"
                 cy="100"
                 r="85"
-                stroke="#8B46E8"
+                stroke="#C269E4"
                 stroke-width="14"
                 stroke-linecap="round"
               />
 
               <path
                 d="M70 135 L70 85 
-           Q70 60 100 60 
-           Q130 60 130 85 
-           Q130 105 100 105 
-           L90 105 
-           Q70 105 70 135 
-           Z"
-                stroke="#8B46E8"
+                  Q70 60 100 60 
+                  Q130 60 130 85 
+                  Q130 105 100 105 
+                  L90 105 
+                  Q70 105 70 135 
+                  Z"
+                stroke="#C269E4"
                 stroke-width="16"
                 stroke-linejoin="round"
                 stroke-linecap="round"
@@ -61,12 +61,12 @@ export const Sidebar = () => {
                 y1="105"
                 x2="135"
                 y2="105"
-                stroke="#8B46E8"
+                stroke="#C269E4"
                 stroke-width="10"
                 stroke-linecap="round"
               />
 
-              <circle cx="145" cy="105" r="12" fill="#8B46E8" />
+              <circle cx="145" cy="105" r="12" fill="#C269E4" />
             </svg>
           </div>
           <div className="flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A]">
@@ -102,7 +102,7 @@ export const Sidebar = () => {
 
         <div className="w-full flex items-center justify-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2">
           <button>
-            <i class="fa-solid fa-pencil"></i> New Chat
+            <i class="fa-solid fa-pencil"></i>&nbsp; New Chat
           </button>
         </div>
 
@@ -136,7 +136,7 @@ export const Sidebar = () => {
                   cx="100"
                   cy="100"
                   r="85"
-                  stroke="#8B46E8"
+                  stroke="#C269E4"
                   stroke-width="14"
                   stroke-linecap="round"
                 />
@@ -149,7 +149,7 @@ export const Sidebar = () => {
                     L90 105 
                     Q70 105 70 135 
                     Z"
-                  stroke="#8B46E8"
+                  stroke="#C269E4"
                   stroke-width="16"
                   stroke-linejoin="round"
                   stroke-linecap="round"
@@ -161,12 +161,12 @@ export const Sidebar = () => {
                   y1="105"
                   x2="135"
                   y2="105"
-                  stroke="#8B46E8"
+                  stroke="#C269E4"
                   stroke-width="10"
                   stroke-linecap="round"
                 />
 
-                <circle cx="145" cy="105" r="12" fill="#8B46E8" />
+                <circle cx="145" cy="105" r="12" fill="#C269E4" />
               </svg>
             </div>
           </div>

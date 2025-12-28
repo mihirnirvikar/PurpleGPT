@@ -1,7 +1,9 @@
 import { Sidebar } from "./components/Sidebar.jsx";
 import { ChatWindow } from "./components/ChatWindow.jsx";
+import { useState } from "react";
 
 export const App = () => {
+  
   return (
     <>
       <div className="flex h-[100vh] flex-0">

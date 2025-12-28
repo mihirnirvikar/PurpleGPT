@@ -53,7 +53,6 @@ router.post("/chat", async (req, res) => {
 
   try {
     let thread = await Thread.findOne({ threadId });
-    console.log(thread)
     if (!thread) {
       thread = new Thread({
         threadId,
@@ -73,7 +72,7 @@ router.post("/chat", async (req, res) => {
     }
 
     const assistantResponse = await main(message);
-    const aiResponse = assistantResponse.candidates[0].content.parts[0].text;
+    const aiResponse = assistantResponse.candidates[0]?.content?.parts[0]?.text;
     thread.messages.push({
       role: "assistant",
       content: aiResponse,
@@ -81,13 +80,13 @@ router.post("/chat", async (req, res) => {
     thread.updatedAt = new Date();
 
     const result = await thread.save();
-    res.status(200).json({ res: result, resp: assistantResponse });
+    res
+      .status(200)
+      .json({ resp: assistantResponse?.candidates[0]?.content.parts[0]?.text });
   } catch (error) {
     console.log(error);
   }
 });
-
-
 
 // router.post("/test", async(req, res) => {
 //     const que = "what is the capital of india";

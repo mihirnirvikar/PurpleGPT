@@ -1,13 +1,61 @@
 import { Chat } from "./Chat.jsx";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../context/ThemeContext.jsx";
+import { SyncLoader } from "react-spinners";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+import { AppContext } from "../context/AppContext.jsx";
 
 export const ChatWindow = () => {
   const { theme, setTheme, toggleTheme } = useContext(ThemeContext);
+  const [loading, setLoading] = useState(false);
+
+  const { prompt, setPrompt, reply, setReply, prevChats, setPrevChats } =
+    useContext(AppContext);
 
   const BtnHandler = () => {
     toggleTheme();
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      fetchResponse();
+    }
+  };
+
+  const fetchResponse = async () => {
+    if (!prompt.trim()) return;
+    setLoading(true);
+    try {
+      const { data } = await axios(import.meta.env.VITE_BACKEND_URL + "/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          threadId: uuidv4(),
+          message: prompt,
+        },
+      });
+      console.log(data);
+      setReply(data.resp);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (!reply) return;
+
+    setPrevChats((prev) => [
+      ...prev,
+      { role: "user", content: prompt },
+      { role: "assistant", content: reply },
+    ]);
+
+    setPrompt("");
+  }, [reply]);
 
   return (
     <>
@@ -41,23 +89,35 @@ export const ChatWindow = () => {
             </button>
           </div>
         </div>
-        <div>
-          <Chat />
-        </div>
-        <div className="flex flex-col  ">
-          <div class="w-190 h-14 flex gap-3 justify-between rounded-full items-center overflow-hidden dark:bg-[#303030] border border-gray-400 dark:border-none mb-2 ">
 
-            <div className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 ml-1 rounded-full  hover:bg-[#E5E7EB] dark:hover:bg-[#454545] ">
-              <i class="fa-solid fa-plus"></i>
+        <div className="flex-1  overflow-y-auto no-scrollbar scroll-smooth px-3 py-2 mt-2 w-[760px]">
+          <Chat />
+          {loading && (
+            <div className="flex items-center mt-6">
+              <SyncLoader color="#8B46E8" size={10} />
             </div>
+          )}
+        </div>
+
+        <div className="flex flex-col  ">
+          <div class="w-[760px] h-14 flex gap-3 justify-between rounded-full items-center overflow-hidden dark:bg-[#303030] border border-gray-400 dark:border-none mb-2 ">
+            <button className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 ml-1 rounded-full  hover:bg-[#E5E7EB] dark:hover:bg-[#454545] ">
+              <i class="fa-solid fa-plus"></i>
+            </button>
             <input
-              className="w-166 outline-none dark:bg-[#303030] text-sm dark:text-white"
+              className="w-[664px] outline-none dark:bg-[#303030] text-sm dark:text-white"
               type="text"
               placeholder="Ask anything..."
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
-            <div className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 mr-1 rounded-full  hover:bg-[#E5E7EB]  dark:hover:bg-[#454545]">
+            <button
+              className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 mr-1 rounded-full  hover:bg-[#E5E7EB]  dark:hover:bg-[#454545]"
+              onClick={fetchResponse}
+            >
               <i class="fa-solid fa-paper-plane"></i>
-            </div>
+            </button>
           </div>
           <div className="flex justify-center items-center text-xs text-black dark:text-white">
             <p>
