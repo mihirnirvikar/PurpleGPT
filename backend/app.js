@@ -12,7 +12,7 @@ const port = 3000;
 const chatRoutes = require("./routes/chat.js");
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "http://localhost:5174"],
   withCredentials: true,
 }));
 app.use(express.json());

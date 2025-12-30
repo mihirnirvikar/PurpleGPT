@@ -100,7 +100,7 @@ export const Sidebar = () => {
           </div>
         </div>
 
-        <div className="w-full flex items-center justify-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2">
+        <div className="w-full flex items-center justify-center p-2 text-black  hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2">
           <button>
             <i class="fa-solid fa-pencil"></i>&nbsp; New Chat
           </button>

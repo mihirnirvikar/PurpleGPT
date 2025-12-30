@@ -18,7 +18,7 @@ export const ChatWindow = () => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && prompt !== "") {
       fetchResponse();
     }
   };
@@ -37,7 +37,7 @@ export const ChatWindow = () => {
           message: prompt,
         },
       });
-      console.log(data);
+      console.log(data.resp);
       setReply(data.resp);
     } catch (error) {
       console.log(error);
@@ -51,7 +51,7 @@ export const ChatWindow = () => {
     setPrevChats((prev) => [
       ...prev,
       { role: "user", content: prompt },
-      { role: "assistant", content: reply },
+      { role: "assistant", content: reply},
     ]);
 
     setPrompt("");
@@ -90,22 +90,22 @@ export const ChatWindow = () => {
           </div>
         </div>
 
-        <div className="flex-1  overflow-y-auto no-scrollbar scroll-smooth px-3 py-2 mt-2 w-[760px]">
+        <div className="flex-1 overflow-y-auto no-scrollbar scroll-smooth px-3 py-2 mt-2 w-196 max-w-4xl">
           <Chat />
           {loading && (
-            <div className="flex items-center mt-6">
+            <div className="flex justify-center w-full z-10 "> 
               <SyncLoader color="#8B46E8" size={10} />
-            </div>
+            </div> 
           )}
         </div>
 
         <div className="flex flex-col  ">
-          <div class="w-[760px] h-14 flex gap-3 justify-between rounded-full items-center overflow-hidden dark:bg-[#303030] border border-gray-400 dark:border-none mb-2 ">
+          <div class="w-190 h-14 flex gap-3 justify-between rounded-full items-center overflow-hidden dark:bg-[#303030] border border-gray-400 dark:border-none mb-2 ">
             <button className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 ml-1 rounded-full  hover:bg-[#E5E7EB] dark:hover:bg-[#454545] ">
               <i class="fa-solid fa-plus"></i>
             </button>
             <input
-              className="w-[664px] outline-none dark:bg-[#303030] text-sm dark:text-white"
+              className="w-166 outline-none dark:bg-[#303030] text-sm dark:text-white"
               type="text"
               placeholder="Ask anything..."
               value={prompt}
