@@ -10,7 +10,7 @@ export const ChatWindow = () => {
   const { theme, setTheme, toggleTheme } = useContext(ThemeContext);
   const [loading, setLoading] = useState(false);
 
-  const { prompt, setPrompt, reply, setReply, prevChats, setPrevChats } =
+  const { prompt, setPrompt, reply, setReply, prevChats, setPrevChats, setNewChat } =
     useContext(AppContext);
 
   const BtnHandler = () => {
@@ -37,8 +37,9 @@ export const ChatWindow = () => {
           message: prompt,
         },
       });
-      console.log(data.resp);
+      // console.log(data.resp);
       setReply(data.resp);
+      setNewChat(false);
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +63,7 @@ export const ChatWindow = () => {
       <div className="flex flex-col justify-between items-center h-screen px-4 py-2 ">
         <div className="flex justify-between items-center w-full sticky top-0 bg-white pb-2 dark:bg-[#212121] ">
           <div className="flex items-center px-5 py-1 rounded-lg hover:bg-gray-200 cursor-pointer dark:hover:bg-[#3A3A3A] ">
-            <h1 className="text-lg text-gray-800 dark:text-white font-semibold">
+            <h1 className="text-lg text-gray-800 dark:text-white ">
               PurpleGPT{" "}
               <span className="text-lg text-gray-600 dark:text-gray-400">
                 2.0<i class="fa-solid fa-angle-down text-sm"></i>
@@ -90,11 +91,11 @@ export const ChatWindow = () => {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto no-scrollbar scroll-smooth px-3 py-2 mt-2 w-196 max-w-4xl">
+        <div className="flex-1 overflow-y-auto no-scrollbar scroll-smooth px-3 py-2 mt-2 w-196 max-w-4xl relative">
           <Chat />
           {loading && (
-            <div className="flex justify-center w-full z-10 "> 
-              <SyncLoader color="#8B46E8" size={10} />
+            <div className="flex justify-center w-full z-10 top-[80%] absolute"> 
+              <SyncLoader color="#8B46E8" size={15} margin={5} />
             </div> 
           )}
         </div>
