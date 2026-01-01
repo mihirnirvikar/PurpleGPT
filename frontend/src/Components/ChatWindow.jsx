@@ -10,7 +10,7 @@ export const ChatWindow = () => {
   const { theme, setTheme, toggleTheme } = useContext(ThemeContext);
   const [loading, setLoading] = useState(false);
 
-  const { prompt, setPrompt, reply, setReply, prevChats, setPrevChats, setNewChat } =
+  const { prompt, setPrompt, reply, setReply, prevChats, setPrevChats, setNewChat, threadId, setThreadId } =
     useContext(AppContext);
 
   const BtnHandler = () => {
@@ -25,6 +25,9 @@ export const ChatWindow = () => {
 
   const fetchResponse = async () => {
     if (!prompt.trim()) return;
+    if(!threadId){
+      setThreadId(uuidv4());
+    }
     setLoading(true);
     try {
       const { data } = await axios(import.meta.env.VITE_BACKEND_URL + "/chat", {
@@ -33,7 +36,7 @@ export const ChatWindow = () => {
           "Content-Type": "application/json",
         },
         data: {
-          threadId: uuidv4(),
+          threadId,
           message: prompt,
         },
       });

@@ -1,13 +1,24 @@
 import { Sidebar } from "./components/Sidebar.jsx";
 import { ChatWindow } from "./components/ChatWindow.jsx";
-import { useState } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
+import { AppContext } from "./context/AppContext.jsx";
 
 export const App = () => {
-  
+  const { inActive, setInActive } = useContext(AppContext);
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    if(inActive) {
+      divRef.current.classList.add("inActive");
+    }else{
+      divRef.current.classList.remove("inActive");
+    }
+  }, [inActive]);
+
   return (
     <>
-      <div className="flex h-[100vh] flex-0">
-        <div className="w-64 dark:bg-[#181818] bg-[#F9F9F9]">
+      <div ref={divRef} className="flex h-[100vh] flex-0">
+        <div  className={`${inActive ? "w-18 group dark:bg-[#212121] border-r border-[#3A3A3A]" : "w-64"} dark:bg-[#181818] bg-[#F9F9F9]`}>
           <Sidebar />
         </div>
         <div className="flex-1 dark:bg-[#212121] bg-[#FFFFFF]">

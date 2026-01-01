@@ -1,15 +1,24 @@
 import purpleGPT2 from "../assets/purpleGPT2.0.png";
 import { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../context/ThemeContext.jsx";
+import { AppContext } from "../context/AppContext.jsx";
 import axios from "axios";
 export const Sidebar = () => {
   const { theme } = useContext(ThemeContext);
-  const [chatHistory, setChatHistory] = useState([]);
+  const [filterData, setFilterData] = useState([]);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const { chatHistory, setChatHistory, reply, inActive, setInActive } = useContext(AppContext);
 
   const fetchHistory = async () => {
     try {
       const { data } = await axios.get(`${backendUrl}/thread`);
+      const filteredData = data.map((item) => {
+        return {
+          threadId: item.threadId,
+          title: item.title,
+        };
+      });
+      setFilterData(filteredData);
       setChatHistory(data);
     } catch (error) {
       console.log(error);
@@ -18,13 +27,13 @@ export const Sidebar = () => {
 
   useEffect(() => {
     fetchHistory();
-  }, []);
+  }, [reply]);
 
   return (
     <>
-      <div className="p-2 w-full ">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A]">
+      <div className={`p-2 w-full`}>
+        <div className={`flex items-center ${inActive ? "ml-2 pt-1 " : "justify-between pt-1"} mb-4`}>
+          <div className={`flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A]  ${inActive ? "group-hover:hidden dark:bg-[#212121]" : ""}`}>
             <svg
               width="40"
               height="40"
@@ -69,7 +78,10 @@ export const Sidebar = () => {
               <circle cx="145" cy="105" r="12" fill="#C269E4" />
             </svg>
           </div>
-          <div className="flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A]">
+
+          <button className={`flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A] ${inActive ? "hidden group-hover:block pl-1.5 dark:bg-[#212121]" : ""}`} onClick={() => {
+            setInActive(!inActive);
+          }}>
             <svg
               width="26"
               height="32"
@@ -97,32 +109,38 @@ export const Sidebar = () => {
                 stroke-width="3"
               />
             </svg>
-          </div>
-        </div>
-
-        <div className="w-full flex items-center justify-center p-2 text-black  hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2">
-          <button>
-            <i class="fa-solid fa-pencil"></i>&nbsp; New Chat
           </button>
         </div>
 
-        <div className="p-2 text-black dark:text-white text-sm mb-4">
+        <div className={`w-full flex items-center justify-center p-2 text-black  hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2 ${inActive ? "w-fit" : "hidden"}`}>
+          <button>
+            <i class="fa-solid fa-pencil"></i>&nbsp; {inActive ? "" : "New Chat"}
+          </button>
+        </div>
+
+        <div className={`p-2 text-black dark:text-white text-sm mb-2 ${inActive ? "hidden" : ""}`}>
           <p>
             Your chats <i class="fa-solid fa-angle-right"></i>{" "}
           </p>
         </div>
 
-        <div className="overflow-y-auto no-scrollbar scroll-smooth h-[68vh] mb-2">
-          {chatHistory.map((chat) => {
+        <div className={`verflow-y-auto no-scrollbar scroll-smooth h-[76vh] mb-2  ${inActive ? "hidden" : ""}`}>
+          {filterData?.map((chat, index) => {
             return (
-              <div className="w-full flex items-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg">
-                <p>{chat.title}</p>
+              <div
+                className="w-full flex items-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg"
+                key={index}
+              >
+                <p className="truncate w-[90%]">{chat.title}</p>
+                <button className="cursor-pointer">
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
               </div>
             );
           })}
         </div>
 
-        <div className="flex w-full items-center gap-3 mt-4 ">
+        <div className={`flex w-full items-center gap-3 mt-4  ${inActive ? "hidden" : ""}`}>
           <div className="flex items-center justify-between">
             <div className="flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A]">
               <svg
