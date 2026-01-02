@@ -17,8 +17,8 @@ export const App = () => {
 
   return (
     <>
-      <div ref={divRef} className="flex h-[100vh] flex-0">
-        <div  className={`${inActive ? "w-18 group dark:bg-[#212121] border-r border-[#3A3A3A]" : "w-64"} dark:bg-[#181818] bg-[#F9F9F9]`}>
+      <div ref={divRef} className="flex h-screen flex-0">
+        <div  className={`${inActive ? "w-18 group dark:bg-[#212121] border-r border-[#3A3A3A] transition-all ease-in-out duration-300" : "w-64"} dark:bg-[#181818] bg-[#F9F9F9] transition-all ease-in-out duration-300`}>
           <Sidebar />
         </div>
         <div className="flex-1 dark:bg-[#212121] bg-[#FFFFFF]">

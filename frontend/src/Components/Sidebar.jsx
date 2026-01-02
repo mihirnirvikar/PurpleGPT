@@ -112,7 +112,7 @@ export const Sidebar = () => {
           </button>
         </div>
 
-        <div className={`w-full flex items-center justify-center p-2 text-black  hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2 ${inActive ? "w-fit" : "hidden"}`}>
+        <div className={`w-full flex items-center justify-center p-2 text-black  hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2 ${inActive ? "w-fit" : "block"}`}>
           <button>
             <i class="fa-solid fa-pencil"></i>&nbsp; {inActive ? "" : "New Chat"}
           </button>
@@ -124,7 +124,7 @@ export const Sidebar = () => {
           </p>
         </div>
 
-        <div className={`verflow-y-auto no-scrollbar scroll-smooth h-[76vh] mb-2  ${inActive ? "hidden" : ""}`}>
+        <div className={`verflow-y-auto no-scrollbar scroll-smooth h-[69vh] mb-2  ${inActive ? "hidden" : ""}`}>
           {filterData?.map((chat, index) => {
             return (
               <div

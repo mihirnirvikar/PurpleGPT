@@ -9,9 +9,20 @@ import { AppContext } from "../context/AppContext.jsx";
 export const ChatWindow = () => {
   const { theme, setTheme, toggleTheme } = useContext(ThemeContext);
   const [loading, setLoading] = useState(false);
+  const {
+    prompt,
+    setPrompt,
+    reply,
+    setReply,
+    prevChats,
+    setPrevChats,
+    setNewChat,
+    threadId,
+    setThreadId,
+  } = useContext(AppContext);
 
-  const { prompt, setPrompt, reply, setReply, prevChats, setPrevChats, setNewChat, threadId, setThreadId } =
-    useContext(AppContext);
+  const [active, setActive] = useState(false);
+  const [model, setModel] = useState(localStorage.getItem("model") || "2.0");
 
   const BtnHandler = () => {
     toggleTheme();
@@ -25,7 +36,7 @@ export const ChatWindow = () => {
 
   const fetchResponse = async () => {
     if (!prompt.trim()) return;
-    if(!threadId){
+    if (!threadId) {
       setThreadId(uuidv4());
     }
     setLoading(true);
@@ -55,7 +66,7 @@ export const ChatWindow = () => {
     setPrevChats((prev) => [
       ...prev,
       { role: "user", content: prompt },
-      { role: "assistant", content: reply},
+      { role: "assistant", content: reply },
     ]);
 
     setPrompt("");
@@ -64,15 +75,58 @@ export const ChatWindow = () => {
   return (
     <>
       <div className="flex flex-col justify-between items-center h-screen px-4 py-2 ">
-        <div className="flex justify-between items-center w-full sticky top-0 bg-white pb-2 dark:bg-[#212121] ">
-          <div className="flex items-center px-5 py-1 rounded-lg hover:bg-gray-200 cursor-pointer dark:hover:bg-[#3A3A3A] ">
-            <h1 className="text-lg text-gray-800 dark:text-white ">
+        <div className="headerSection flex z-10 justify-between items-center w-full sticky top-0 bg-white dark:bg-[#212121] ">
+          <div className="flex items-center relative">
+            <h1
+              className="block w-full px-5 py-1 rounded-lg text-lg text-gray-800 hover:bg-gray-200 cursor-pointer
+             dark:text-white dark:hover:bg-[#3A3A3A]"
+              onClick={() => setActive(!active)}
+            >
               PurpleGPT{" "}
               <span className="text-lg text-gray-600 dark:text-gray-400">
-                2.0<i class="fa-solid fa-angle-down text-sm"></i>
+                {model}
+                <i class="fa-solid fa-angle-down text-sm"></i>
               </span>
             </h1>
+
+            {active && (
+              <div className="z-990 absolute top-10 left-0 w-44 bg-[#F9F9F9] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
+                <ul className="w-full">
+                  <li
+                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                    onClick={() => {
+                      localStorage.setItem("model", "1.0")
+                      setModel("1.0");
+                      setActive(false)
+                    }}
+                  >
+                    PurpleGPT 1.0
+                  </li>
+                  <li
+                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                    onClick={() => {
+                      localStorage.setItem("model", "2.0")
+                      setModel("2.0");
+                      setActive(false)
+                    }}
+                  >
+                    PurpleGPT 2.0
+                  </li>
+                  <li
+                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                    onClick={() => {
+                      localStorage.setItem("model", "3.0")
+                      setModel("3.0");
+                      setActive(false)
+                    }}
+                  >
+                    PurpleGPT 3.0
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
+
           <div className="flex gap-4 items-center">
             <button
               className="flex items-center justify-center w-10 h-10 p-1.5 text-xl rounded-lg bg-gray-200 text-black hover:bg-gray-300 dark:bg-[#212121] dark:hover:bg-[#3A3A3A] dark:text-white"
@@ -94,16 +148,20 @@ export const ChatWindow = () => {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto no-scrollbar scroll-smooth px-3 py-2 mt-2 w-196 max-w-4xl relative">
+        <div
+          className="chatSection flex-1 overflow-y-auto no-scrollbar scroll-smooth px-3 py-2 mt-2 w-196 max-w-4xl relative"
+          onClick={() => {
+            setActive(false);
+          }}>
           <Chat />
           {loading && (
-            <div className="flex justify-center w-full z-10 top-[80%] absolute"> 
+            <div className="flex justify-center w-full z-10 top-[80%] absolute">
               <SyncLoader color="#8B46E8" size={15} margin={5} />
-            </div> 
+            </div>
           )}
         </div>
 
-        <div className="flex flex-col  ">
+        <div className="inputSection flex flex-col  ">
           <div class="w-190 h-14 flex gap-3 justify-between rounded-full items-center overflow-hidden dark:bg-[#303030] border border-gray-400 dark:border-none mb-2 ">
             <button className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 ml-1 rounded-full  hover:bg-[#E5E7EB] dark:hover:bg-[#454545] ">
               <i class="fa-solid fa-plus"></i>
