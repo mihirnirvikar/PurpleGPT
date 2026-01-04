@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <circle
+    cx="100"
+    cy="100"
+    r="85"
+    stroke="#C269E4"
+    stroke-width="14"
+    stroke-linecap="round"
+    fill="none"
+  />
+
+  <path
+    d="M70 135 
+       L70 85 
+       Q70 60 100 60 
+       Q130 60 130 85 
+       Q130 105 100 105 
+       L90 105 
+       Q70 105 70 135 
+       Z"
+    stroke="#C269E4"
+    stroke-width="16"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+    fill="none"
+  />
+
+  <line
+    x1="100"
+    y1="105"
+    x2="135"
+    y2="105"
+    stroke="#C269E4"
+    stroke-width="10"
+    stroke-linecap="round"
+  />
+
+  <circle cx="145" cy="105" r="12" fill="#C269E4" />
+</svg>

@@ -3,17 +3,30 @@ import { AppContext } from "../context/AppContext.jsx";
 import ReactMarkDown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
-
+import axios from "axios";
 
 export const Chat = () => {
-  const { newChat, setNewChat, prevChats, reply } = useContext(AppContext);
+  const {
+    newChat,
+    setNewChat,
+    prevChats,
+    setPrevChats,
+    reply,
+    setReply,
+    prevChatsThreadId,
+  } = useContext(AppContext);
+
   const [latestReply, setLatestReply] = useState(null);
 
   useEffect(() => {
-    if (!prevChats?.length) return;
+    if (!reply) {
+      setLatestReply(null);
+      return;
+    }
 
     const content = reply.split(" ");
     let idx = 0;
+
     const interval = setInterval(() => {
       setLatestReply(content.slice(0, idx + 1).join(" "));
       idx++;
@@ -24,13 +37,38 @@ export const Chat = () => {
     return () => clearInterval(interval);
   }, [reply]);
 
+  useEffect(() => {
+    if (!prevChatsThreadId) return;
+
+    const fetchHistoryChats = async () => {
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/thread/${prevChatsThreadId}`
+        );
+
+        setPrevChats(data.messages);
+        setNewChat(false);
+        setReply(null);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchHistoryChats();
+  }, [prevChatsThreadId]);
+
   return (
     <>
       {newChat && (
         <div className="flex justify-center items-center h-full w-full">
-          <h1 className="text-black dark:text-white text-2xl flex items-center justify-center mb-4">
-            New Chats
-          </h1>
+          <div>
+            <h1 className="text-black dark:text-white text-2xl text-center mb-2">
+              New Chats
+            </h1>
+            <p className="text-black dark:text-white text-center mb-4">
+              What’s on your mind? Ask anything, anywhere.
+            </p>
+          </div>
         </div>
       )}
 
@@ -44,7 +82,7 @@ export const Chat = () => {
             </div>
           ) : (
             <div className="flex justify-start" key={index}>
-              <div className="bg-gray-200 dark:bg-[#3A3A3A] text-black dark:text-white px-4 py-2 rounded-lg rounded-bl-none max-w-full ">
+              <div className="bg-gray-200 dark:bg-[#3A3A3A] px-4 py-2 rounded-lg rounded-bl-none max-w-full">
                 <ReactMarkDown rehypePlugins={[rehypeHighlight]}>
                   {chat.content}
                 </ReactMarkDown>
@@ -53,11 +91,13 @@ export const Chat = () => {
           )
         )}
 
-        {prevChats?.length > 0 && latestReply !== null && (
-          <div className="flex justify-start" key={"latest-reply"}>
-            <div className="bg-gray-200 dark:bg-[#3A3A3A] text-black dark:text-white px-4 py-2 rounded-lg rounded-bl-none max-w-full">
+        {prevChats?.length > 0 && (
+          <div className="flex justify-start">
+            <div className="bg-gray-200 dark:bg-[#3A3A3A] px-4 py-2 rounded-lg rounded-bl-none max-w-full">
               <ReactMarkDown rehypePlugins={[rehypeHighlight]}>
-                {latestReply}
+                {latestReply !== null
+                  ? latestReply
+                  : prevChats[prevChats.length - 1].content}
               </ReactMarkDown>
             </div>
           </div>

@@ -8,9 +8,9 @@ export const App = () => {
   const divRef = useRef(null);
 
   useEffect(() => {
-    if(inActive) {
+    if (inActive) {
       divRef.current.classList.add("inActive");
-    }else{
+    } else {
       divRef.current.classList.remove("inActive");
     }
   }, [inActive]);
@@ -18,7 +18,13 @@ export const App = () => {
   return (
     <>
       <div ref={divRef} className="flex h-screen flex-0">
-        <div  className={`${inActive ? "w-18 group dark:bg-[#212121] border-r border-[#3A3A3A] transition-all ease-in-out duration-300" : "w-64"} dark:bg-[#181818] bg-[#F9F9F9] transition-all ease-in-out duration-300`}>
+        <div
+          className={`${
+            inActive
+              ? "w-18 group dark:bg-[#212121] border-r dark:border-[#3A3A3A] border-[#D9D9D9] transition-all ease-in-out duration-300"
+              : "w-64"
+          } dark:bg-[#181818] bg-[#F9F9F9] transition-all ease-in-out duration-300`}
+        >
           <Sidebar />
         </div>
         <div className="flex-1 dark:bg-[#212121] bg-[#FFFFFF]">

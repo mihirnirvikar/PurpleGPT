@@ -11,6 +11,7 @@ export const AppContextProvider = (props) => {
   const [threadId, setThreadId] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [inActive, setInActive] = useState(false);
+  const [prevChatsThreadId, setPrevChatsThreadId] = useState(null);
 
   const values = {
     prompt,
@@ -27,6 +28,8 @@ export const AppContextProvider = (props) => {
     setChatHistory,
     inActive,
     setInActive,
+    prevChatsThreadId,
+    setPrevChatsThreadId,
   };
 
   return (

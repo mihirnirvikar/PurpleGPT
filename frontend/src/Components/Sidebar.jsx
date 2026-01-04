@@ -3,11 +3,26 @@ import { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import { AppContext } from "../context/AppContext.jsx";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 export const Sidebar = () => {
   const { theme } = useContext(ThemeContext);
   const [filterData, setFilterData] = useState([]);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  const { chatHistory, setChatHistory, reply, inActive, setInActive } = useContext(AppContext);
+  const {
+    chatHistory,
+    setChatHistory,
+    reply,
+    inActive,
+    setInActive,
+    setNewChat,
+    setPrompt,
+    setReply,
+    threadId,
+    setThreadId,
+    setPrevChats,
+    setPrevChatsThreadId,
+  } = useContext(AppContext);
+  // const [threadChat, setThreadChat] = useState([]);
 
   const fetchHistory = async () => {
     try {
@@ -32,8 +47,15 @@ export const Sidebar = () => {
   return (
     <>
       <div className={`p-2 w-full`}>
-        <div className={`flex items-center ${inActive ? "ml-2 pt-1 " : "justify-between pt-1"} mb-4`}>
-          <div className={`flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A]  ${inActive ? "group-hover:hidden dark:bg-[#212121]" : ""}`}>
+        <div
+          className={`flex items-center ${
+            inActive ? "ml-2 pt-1 " : "justify-between pt-1"
+          } mb-4`}>
+          <div
+            className={`flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A]  ${
+              inActive ? "group-hover:hidden dark:bg-[#212121]" : ""
+            }`}
+          >
             <svg
               width="40"
               height="40"
@@ -79,16 +101,23 @@ export const Sidebar = () => {
             </svg>
           </div>
 
-          <button className={`flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A] ${inActive ? "hidden group-hover:block pl-1.5 dark:bg-[#212121]" : ""}`} onClick={() => {
-            setInActive(!inActive);
-          }}>
+          <button
+            className={`flex w-9 h-9 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg  text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A] ${
+              inActive
+                ? "hidden group-hover:block pl-1.5 dark:bg-[#212121]"
+                : ""
+            }`}
+            onClick={() => {
+              setInActive(!inActive);
+            }}
+          >
             <svg
-              width="26"
-              height="32"
+              width="24"
+              height="28"
               viewBox="0 0 38 30"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="cursor-pointer"
+              className="cursor-w-resize"
             >
               <rect
                 x="2"
@@ -112,24 +141,46 @@ export const Sidebar = () => {
           </button>
         </div>
 
-        <div className={`w-full flex items-center justify-center p-2 text-black  hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2 ${inActive ? "w-fit" : "block"}`}>
-          <button>
-            <i class="fa-solid fa-pencil"></i>&nbsp; {inActive ? "" : "New Chat"}
+        <div
+          className={`w-full flex items-center justify-center cursor-pointer p-2 text-black  hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2 ${
+            inActive ? "w-fit" : "block"
+          }`}
+          onClick={() => {
+            setNewChat(true);
+            setReply("");
+            setInActive(false);
+            setThreadId(uuidv4());
+            setPrevChats([]);
+          }}>
+          <button className="flex items-center cursor-pointer">
+            <i class="fa-solid fa-pencil"></i>&nbsp;{" "}
+            {inActive ? "" : "New Chat"}
           </button>
         </div>
 
-        <div className={`p-2 text-black dark:text-white text-sm mb-2 ${inActive ? "hidden" : ""}`}>
+        <div
+          className={`p-2 text-black dark:text-white text-sm mb-2 ${
+            inActive ? "hidden" : ""
+          }`}>
           <p>
             Your chats <i class="fa-solid fa-angle-right"></i>{" "}
           </p>
         </div>
 
-        <div className={`verflow-y-auto no-scrollbar scroll-smooth h-[69vh] mb-2  ${inActive ? "hidden" : ""}`}>
+        <div
+          className={`overflow-y-auto cursor-pointer no-scrollbar scroll-smooth h-[69vh] mb-2  ${
+            inActive ? "hidden" : ""
+          }`} >
           {filterData?.map((chat, index) => {
             return (
               <div
                 className="w-full flex items-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg"
                 key={index}
+                onClick={() => {
+                  setNewChat(false);
+                  setInActive(false);
+                  setPrevChatsThreadId(chat?.threadId);
+                }}
               >
                 <p className="truncate w-[90%]">{chat.title}</p>
                 <button className="cursor-pointer">
@@ -140,7 +191,10 @@ export const Sidebar = () => {
           })}
         </div>
 
-        <div className={`flex w-full items-center gap-3 mt-4  ${inActive ? "hidden" : ""}`}>
+        <div
+          className={`flex w-full items-center gap-3 mt-4  ${
+            inActive ? "hidden" : ""
+          }`}>
           <div className="flex items-center justify-between">
             <div className="flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A]">
               <svg
