@@ -19,6 +19,7 @@ export const ChatWindow = () => {
     setNewChat,
     threadId,
     setThreadId,
+    setActiveThreeDot,
   } = useContext(AppContext);
 
   const [active, setActive] = useState(false);
@@ -74,13 +75,23 @@ export const ChatWindow = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-between items-center h-screen px-4 py-2 ">
+      <div
+        className="flex flex-col justify-between items-center h-screen px-4 py-2 "
+        onClick={(e) => {
+          e.stopPropagation();
+          setActiveThreeDot(false);
+          setActive(false);
+        }}
+      >
         <div className="headerSection flex z-10 justify-between items-center w-full sticky top-0 bg-white dark:bg-[#212121] ">
           <div className="flex items-center relative">
             <h1
               className="block w-full px-5 py-1 rounded-lg text-lg text-gray-800 hover:bg-gray-200 cursor-pointer
              dark:text-white dark:hover:bg-[#3A3A3A]"
-              onClick={() => setActive(!active)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setActive(!active);
+              }}
             >
               PurpleGPT{" "}
               <span className="text-lg text-gray-600 dark:text-gray-400">
@@ -152,6 +163,7 @@ export const ChatWindow = () => {
           className="chatSection flex-1 overflow-y-auto  no-scrollbar scroll-smooth px-3 py-2 mt-2 w-196 max-w-4xl relative"
           onClick={() => {
             setActive(false);
+            setActiveThreeDot(null);
           }}
         >
           <Chat />
