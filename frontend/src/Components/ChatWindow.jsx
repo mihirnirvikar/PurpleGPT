@@ -1,5 +1,5 @@
 import { Chat } from "./Chat.jsx";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import { SyncLoader } from "react-spinners";
 import axios from "axios";
@@ -24,6 +24,7 @@ export const ChatWindow = () => {
 
   const [active, setActive] = useState(false);
   const [model, setModel] = useState(localStorage.getItem("model") || "2.0");
+  const inputRef = useRef(null);
 
   const BtnHandler = () => {
     toggleTheme();
@@ -96,7 +97,7 @@ export const ChatWindow = () => {
               PurpleGPT{" "}
               <span className="text-lg text-gray-600 dark:text-gray-400">
                 {model}
-                <i class="fa-solid fa-angle-down text-sm"></i>
+                <i class={`fa-solid fa-angle-${active ? "right" : "down"} text-sm`}></i>
               </span>
             </h1>
 
@@ -140,7 +141,7 @@ export const ChatWindow = () => {
 
           <div className="flex gap-4 items-center">
             <button
-              className="flex items-center justify-center w-9 h-9 p-1.5 text-xl rounded-full bg-gray-200 text-black hover:bg-gray-300 dark:bg-[#212121] dark:hover:bg-[#3A3A3A] dark:text-white"
+              className="flex items-center justify-center w-9 h-9 p-1.5 text-xl rounded-full bg-gray-200 text-black hover:bg-gray-300 dark:bg-[#212121] dark:hover:bg-[#3A3A3A] dark:text-white cursor-pointer"
               onClick={BtnHandler}
             >
               {theme === "dark" ? (
@@ -152,7 +153,7 @@ export const ChatWindow = () => {
 
             <button
               className="
-            flex items-center justify-center w-10 h-10 p-1.5 text-xl rounded-full bg-[#C269E4] hover:bg-[#ac5ecb] dark:hover:bg-[#ad50d2] text-white mr-4 "
+            flex items-center justify-center w-10 h-10 p-1.5 text-xl rounded-full bg-[#C269E4] hover:bg-[#ac5ecb] dark:hover:bg-[#ad50d2] text-white mr-4 cursor-pointer"
             >
               <i class="fa-regular fa-user"></i>
             </button>
@@ -176,20 +177,23 @@ export const ChatWindow = () => {
         )}
 
         <div className="inputSection flex flex-col  ">
-          <div class="w-190 h-14 flex gap-3 justify-between rounded-full items-center overflow-hidden dark:bg-[#303030] border border-gray-400 dark:border-none mb-2 ">
-            <button className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 ml-1 rounded-full  hover:bg-[#E5E7EB] dark:hover:bg-[#454545] ">
+          <div class="w-190 h-14 flex gap-3 justify-between rounded-full items-center overflow-hidden dark:bg-[#303030] border border-gray-400 dark:border-none mb-2 " onClick={() => {
+            inputRef.current.focus();
+          }}>
+            <button className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 ml-1 rounded-full  hover:bg-[#E5E7EB] dark:hover:bg-[#454545] cursor-pointer">
               <i class="fa-solid fa-plus"></i>
             </button>
             <input
               className="w-166 outline-none dark:bg-[#303030] text-sm dark:text-white"
               type="text"
+              ref={inputRef}
               placeholder="Ask anything..."
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               onKeyDown={handleKeyDown}
             />
             <button
-              className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 mr-1 rounded-full  hover:bg-[#E5E7EB]  dark:hover:bg-[#454545]"
+              className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 mr-1 rounded-full  hover:bg-[#E5E7EB]  dark:hover:bg-[#454545] cursor-pointer"
               onClick={fetchResponse}
             >
               <i class="fa-solid fa-paper-plane text-[#C269E4]"></i>

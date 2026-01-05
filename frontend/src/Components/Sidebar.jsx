@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 export const Sidebar = () => {
   const { theme } = useContext(ThemeContext);
   const [filterData, setFilterData] = useState([]);
+  const [yourChats, setYourChats] = useState(true);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const {
     chatHistory,
@@ -97,7 +98,7 @@ export const Sidebar = () => {
           } mb-4`}
         >
           <div
-            className={`flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A]  ${
+            className={`flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A] cursor-pointer ${
               inActive ? "group-hover:hidden dark:bg-[#212121]" : ""
             }`}
           >
@@ -105,7 +106,7 @@ export const Sidebar = () => {
           </div>
 
           <button
-            className={`flex w-9 h-9 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg  text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A] ${
+            className={`flex w-9 h-9 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg  text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A] cursor-w-resize ${
               inActive
                 ? "hidden group-hover:block pl-1.5 dark:bg-[#212121]"
                 : ""
@@ -146,94 +147,104 @@ export const Sidebar = () => {
             inActive ? "hidden" : ""
           }`}
         >
-          <p>
-            Your chats <i class="fa-solid fa-angle-right"></i>{" "}
+          <p
+            className="items-center"
+            onClick={() => {
+              setYourChats(!yourChats);
+            }}
+          >
+            Your chats{" "}
+            <i
+              className={`fa-solid fa-angle-${yourChats ? "down" : "right"}`}
+            ></i>{" "}
           </p>
         </div>
 
-        <div
-          className={`overflow-y-auto cursor-pointer no-scrollbar scroll-smooth h-[69vh] mb-2   ${
-            inActive ? "hidden" : ""
-          }`}
-        >
-          {filterData?.map((chat, index) => {
-            return (
-              <div
-                className="w-full flex items-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg relative group"
-                key={index}
-                onClick={() => {
-                  setNewChat(false);
-                  setInActive(false);
-                  setActiveThreadId(null);
-                  setPrevChatsThreadId(chat?.threadId);
-                }}
-              >
-                {renameThreadId === chat.threadId ? (
-                  <input
-                    autoFocus
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onBlur={() => saveRename()}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") saveRename();
-                      if (e.key === "Escape") {
-                        setRenameThreadId(null);
-                        setActiveThreadId(null);
-                        setInputValue("");
-                      }
-                    }}
-                    className="w-[90%] bg-transparent outline-none text-black dark:text-white"
-                  />
-                ) : (
-                  <div className="flex items-center w-full">
-                    <p className="truncate w-[90%]">{chat.title}</p>
-                    <button
-                      className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveThreadId(
-                          activeThreadId === chat.threadId
-                            ? null
-                            : chat.threadId
-                        );
+        {yourChats && (
+          <div
+            className={`overflow-y-auto cursor-pointer no-scrollbar scroll-smooth h-[70vh] mb-2   ${
+              inActive ? "hidden" : ""
+            }`}
+          >
+            {filterData?.map((chat, index) => {
+              return (
+                <div
+                  className="w-full flex items-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg relative group"
+                  key={index}
+                  onClick={() => {
+                    setNewChat(false);
+                    setInActive(false);
+                    setActiveThreadId(null);
+                    setPrevChatsThreadId(chat?.threadId);
+                  }}
+                >
+                  {renameThreadId === chat.threadId ? (
+                    <input
+                      autoFocus
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onBlur={() => saveRename()}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") saveRename();
+                        if (e.key === "Escape") {
+                          setRenameThreadId(null);
+                          setActiveThreadId(null);
+                          setInputValue("");
+                        }
                       }}
-                    >
-                      <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
-                  </div>
-                )}
-
-                {activeThreadId === chat.threadId && (
-                  <div className="z-50 absolute top-10 right-0 w-30 bg-[#FFFFFF] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
-                    <ul className="w-full">
-                      <li
-                        className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
-                        onClick={() => {
-                          handleRename(chat);
+                      className="w-[90%] bg-transparent outline-none text-black dark:text-white"
+                    />
+                  ) : (
+                    <div className="flex items-center w-full">
+                      <p className="truncate w-[90%]">{chat.title}</p>
+                      <button
+                        className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveThreadId(
+                            activeThreadId === chat.threadId
+                              ? null
+                              : chat.threadId
+                          );
                         }}
                       >
-                        <i class="fa-solid fa-pencil"></i> &nbsp; Rename
-                      </li>
-                      <li
-                        className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
-                        onClick={handleDelete}
-                      >
-                        <i class="fa-regular fa-trash-can"></i> &nbsp; Delete
-                      </li>
-                      <li className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer">
-                        <i class="fa-solid fa-box-archive"></i>
-                        &nbsp; Archive
-                      </li>
-                    </ul>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                      </button>
+                    </div>
+                  )}
+
+                  {activeThreadId === chat.threadId && (
+                    <div className="z-50 absolute top-10 right-0 w-30 bg-[#FFFFFF] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
+                      <ul className="w-full">
+                        <li
+                          className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                          onClick={() => {
+                            handleRename(chat);
+                          }}
+                        >
+                          <i class="fa-solid fa-pencil"></i> &nbsp; Rename
+                        </li>
+                        <li
+                          className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                          onClick={handleDelete}
+                        >
+                          <i class="fa-regular fa-trash-can"></i> &nbsp; Delete
+                        </li>
+                        <li className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer">
+                          <i class="fa-solid fa-box-archive"></i>
+                          &nbsp; Archive
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         <div
-          className={`flex w-full items-center gap-3 mt-4  ${
+          className={`flex w-48 items-center gap-3 mt-4 cursor-pointer fixed bottom-3 z-10 ${
             inActive ? "hidden" : ""
           }`}
         >
