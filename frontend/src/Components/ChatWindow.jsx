@@ -97,7 +97,11 @@ export const ChatWindow = () => {
               PurpleGPT{" "}
               <span className="text-lg text-gray-600 dark:text-gray-400">
                 {model}
-                <i class={`fa-solid fa-angle-${active ? "right" : "down"} text-sm`}></i>
+                <i
+                  class={`fa-solid fa-angle-${
+                    active ? "right" : "down"
+                  } text-sm`}
+                ></i>
               </span>
             </h1>
 
@@ -177,10 +181,18 @@ export const ChatWindow = () => {
         )}
 
         <div className="inputSection flex flex-col  ">
-          <div class="w-190 h-14 flex gap-3 justify-between rounded-full items-center overflow-hidden dark:bg-[#303030] border border-gray-400 dark:border-none mb-2 " onClick={() => {
-            inputRef.current.focus();
-          }}>
-            <button className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 ml-1 rounded-full  hover:bg-[#E5E7EB] dark:hover:bg-[#454545] cursor-pointer">
+          <div
+            class="w-190 h-14 flex gap-3 justify-between rounded-full items-center overflow-hidden dark:bg-[#303030] border border-gray-400 dark:border-none mb-2 "
+            onClick={() => {
+              inputRef.current.focus();
+            }}
+          >
+            <button
+              className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 ml-1 rounded-full  hover:bg-[#E5E7EB] dark:hover:bg-[#454545] cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
               <i class="fa-solid fa-plus"></i>
             </button>
             <input
@@ -189,7 +201,9 @@ export const ChatWindow = () => {
               ref={inputRef}
               placeholder="Ask anything..."
               value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
+              onChange={(e) => {
+                setPrompt(e.target.value);
+              }}
               onKeyDown={handleKeyDown}
             />
             <button
