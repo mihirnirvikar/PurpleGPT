@@ -19,7 +19,7 @@ export const ChatWindow = () => {
     setNewChat,
     threadId,
     setThreadId,
-    setActiveThreeDot,
+    setActiveThreadId,
   } = useContext(AppContext);
 
   const [active, setActive] = useState(false);
@@ -79,7 +79,7 @@ export const ChatWindow = () => {
         className="flex flex-col justify-between items-center h-screen px-4 py-2 "
         onClick={(e) => {
           e.stopPropagation();
-          setActiveThreeDot(false);
+          setActiveThreadId(false);
           setActive(false);
         }}
       >
@@ -163,7 +163,7 @@ export const ChatWindow = () => {
           className="chatSection flex-1 overflow-y-auto  no-scrollbar scroll-smooth px-3 py-2 mt-2 w-196 max-w-4xl relative"
           onClick={() => {
             setActive(false);
-            setActiveThreeDot(null);
+            setActiveThreadId(null);
           }}
         >
           <Chat />

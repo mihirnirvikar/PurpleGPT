@@ -21,10 +21,12 @@ export const Sidebar = () => {
     setThreadId,
     setPrevChats,
     setPrevChatsThreadId,
-    activeThreeDot,
-    setActiveThreeDot
+    activeThreadId,
+    setActiveThreadId,
   } = useContext(AppContext);
-  
+
+  const [renameThreadId, setRenameThreadId] = useState(null);
+  const [inputValue, setInputValue] = useState("");
 
   const fetchHistory = async () => {
     try {
@@ -46,16 +48,45 @@ export const Sidebar = () => {
     fetchHistory();
   }, [reply]);
 
-  const handleDelete = async() =>{
+  const handleDelete = async () => {
     try {
-      const { data } = await axios.delete(`${backendUrl}/thread/${activeThreeDot}`);
-      fetchHistory();
+      const { data } = await axios.delete(
+        `${backendUrl}/thread/${activeThreadId}`
+      );
       setPrevChats([]);
       setNewChat(true);
+      fetchHistory();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
+
+  const handleRename = async (chat) => {
+    setRenameThreadId(activeThreadId);
+    setInputValue(chat.title);
+  };
+
+  const saveRename = async () => {
+    try {
+      const { data } = await axios.put(
+        `${backendUrl}/thread/${renameThreadId}`,
+        {
+          newTitle: inputValue,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      fetchHistory();
+      setRenameThreadId(null);
+      setActiveThreadId(null);
+      setInputValue("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -81,7 +112,7 @@ export const Sidebar = () => {
             }`}
             onClick={() => {
               setInActive(!inActive);
-              setActiveThreeDot(null);
+              setActiveThreadId(null);
             }}
           >
             <img
@@ -105,8 +136,8 @@ export const Sidebar = () => {
           }}
         >
           <button className="flex items-center cursor-pointer">
-            <i class="fa-solid fa-pencil"></i>&nbsp;{" "}
-            {inActive ? "" : "New Chat"}
+            <i class="fa-solid fa-pen-to-square"></i>
+            &nbsp; {inActive ? "" : "New Chat"}
           </button>
         </div>
 
@@ -121,50 +152,77 @@ export const Sidebar = () => {
         </div>
 
         <div
-          className={`overflow-y-auto cursor-pointer no-scrollbar scroll-smooth h-[69vh] mb-2  ${
+          className={`overflow-y-auto cursor-pointer no-scrollbar scroll-smooth h-[69vh] mb-2   ${
             inActive ? "hidden" : ""
           }`}
         >
           {filterData?.map((chat, index) => {
             return (
               <div
-                className="w-full flex items-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg relative"
+                className="w-full flex items-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg relative group"
                 key={index}
                 onClick={() => {
                   setNewChat(false);
                   setInActive(false);
-                  setActiveThreeDot(null);
+                  setActiveThreadId(null);
                   setPrevChatsThreadId(chat?.threadId);
                 }}
               >
-                <p className="truncate w-[90%]">{chat.title}</p>
-                <button
-                  className="cursor-pointer "
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveThreeDot(
-                      activeThreeDot === chat.threadId ? null : chat.threadId
-                    );
-                  }}
-                >
-                  <i class="fa-solid fa-ellipsis-vertical"></i>
-                </button>
+                {renameThreadId === chat.threadId ? (
+                  <input
+                    autoFocus
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onBlur={() => saveRename()}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") saveRename();
+                      if (e.key === "Escape") {
+                        setRenameThreadId(null);
+                        setActiveThreadId(null);
+                        setInputValue("");
+                      }
+                    }}
+                    className="w-[90%] bg-transparent outline-none text-black dark:text-white"
+                  />
+                ) : (
+                  <div className="flex items-center w-full">
+                    <p className="truncate w-[90%]">{chat.title}</p>
+                    <button
+                      className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveThreadId(
+                          activeThreadId === chat.threadId
+                            ? null
+                            : chat.threadId
+                        );
+                      }}
+                    >
+                      <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                  </div>
+                )}
 
-                {activeThreeDot === chat.threadId && (
+                {activeThreadId === chat.threadId && (
                   <div className="z-50 absolute top-10 right-0 w-30 bg-[#FFFFFF] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
                     <ul className="w-full">
-                      <li className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer">
-                        <i class="fa-solid fa-box"></i> &nbsp;
-                        Rename
+                      <li
+                        className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                        onClick={() => {
+                          handleRename(chat);
+                        }}
+                      >
+                        <i class="fa-solid fa-pencil"></i> &nbsp; Rename
                       </li>
-                      <li className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer" onClick={handleDelete}>
-                        <i class="fa-regular fa-trash-can"></i> &nbsp;
-                        Delete
+                      <li
+                        className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                        onClick={handleDelete}
+                      >
+                        <i class="fa-regular fa-trash-can"></i> &nbsp; Delete
                       </li>
                       <li className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer">
-                        <i class="fa-solid fa-box"></i>
-                        &nbsp;
-                        Archive
+                        <i class="fa-solid fa-box-archive"></i>
+                        &nbsp; Archive
                       </li>
                     </ul>
                   </div>
