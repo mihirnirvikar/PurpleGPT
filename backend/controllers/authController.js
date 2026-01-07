@@ -325,6 +325,31 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const isAccountVerified = async (req, res) => {
+  const { userId } = req.user;
+
+  if (!userId) {
+    return res.status(401).json({ error: "Unauthorized request" });
+  }
+
+  try {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (!user.isAccountVerified) {
+      return res.status(200).json({ isAccountVerified: false });
+    }
+
+    return res.status(200).json({ isAccountVerified: user.isAccountVerified });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -333,4 +358,6 @@ module.exports = {
   sendVerifyOtp,
   verifyOtp,
   sendResetOtp,
+  resetPassword,
+  isAccountVerified,
 };
