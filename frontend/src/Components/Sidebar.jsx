@@ -1,4 +1,3 @@
-import purpleGPT2 from "../assets/purpleGPT2.0.png";
 import { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import { AppContext } from "../context/AppContext.jsx";
@@ -137,7 +136,7 @@ export const Sidebar = () => {
           }}
         >
           <button className="flex items-center cursor-pointer">
-            <i class="fa-solid fa-pen-to-square"></i>
+            <i className="fa-solid fa-pen-to-square"></i>
             &nbsp; {inActive ? "" : "New Chat"}
           </button>
         </div>
@@ -208,7 +207,7 @@ export const Sidebar = () => {
                           );
                         }}
                       >
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                        <i className="fa-solid fa-ellipsis-vertical"></i>
                       </button>
                     </div>
                   )}
@@ -222,16 +221,16 @@ export const Sidebar = () => {
                             handleRename(chat);
                           }}
                         >
-                          <i class="fa-solid fa-pencil"></i> &nbsp; Rename
+                          <i className="fa-solid fa-pencil"></i> &nbsp; Rename
                         </li>
                         <li
                           className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
                           onClick={handleDelete}
                         >
-                          <i class="fa-regular fa-trash-can"></i> &nbsp; Delete
+                          <i className="fa-regular fa-trash-can"></i> &nbsp; Delete
                         </li>
                         <li className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer">
-                          <i class="fa-solid fa-box-archive"></i>
+                          <i className="fa-solid fa-box-archive"></i>
                           &nbsp; Archive
                         </li>
                       </ul>
