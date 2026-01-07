@@ -242,6 +242,7 @@ const verifyOtp = async (req, res) => {
     user.verifyOtp = "";
     user.verifyOtpExpireAt = 0;
     user.isAccountVerified = true;
+
     await user.save();
 
     return res.status(200).json({ success: "User verified successfully" });
@@ -253,6 +254,77 @@ const verifyOtp = async (req, res) => {
   }
 };
 
+// send reset otp to mail
+const sendResetOtp = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  const user = await UserModel.findOne({ email: email });
+
+  if (!user) {
+    return res.status(404).json({ error: "User Not Found" });
+  }
+
+  try {
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    user.resetOtp = otp;
+    user.resetOtpExpireAt = Date.now() + 10 * 60 * 1000; // for 10 minutes
+
+    await user.save();
+
+    // send welcome back mail
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL,
+      to: user.email,
+      subject: "PurpleGPT Password Reset Verification Code",
+      text: `Hi ${user.name},\n\nYour password reset verification code is ${otp}\n\nBest,\nPurpleGPT Team`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).json({ message: "OTP sent successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// get reset otp from user
+const resetPassword = async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+
+  if (!email || !otp || !newPassword) {
+    return res.status(400).json({ error: "All fields are required!" });
+  }
+
+  try {
+    const user = await UserModel.findOne({ email: email });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (user.resetOtpExpireAt < Date.now() || user.resetOtp !== otp) {
+      return res.status(400).json({ error: "Invalid Otp or expired" });
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedNewPassword;
+    user.resetOtp = "";
+    user.resetOtpExpireAt = 0;
+
+    await user.save();
+
+    return res.status(200).json({ success: "Reset Password Successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -260,4 +332,5 @@ module.exports = {
   refreshAccessToken,
   sendVerifyOtp,
   verifyOtp,
+  sendResetOtp,
 };
