@@ -7,9 +7,11 @@ export const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Layout />}></Route>
+        <Route path="/c" element={<Layout />} />
+        <Route path="/c/login" element={<Login />} />
         <Route path="*" element={<Error />} />
+        <Route path="/c/reset-password" element={<Login />} />
       </Routes>
     </>
   );

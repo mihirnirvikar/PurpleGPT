@@ -10,7 +10,7 @@ export const Error = () => {
       setCount((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          navigate("/");
+          navigate("/c");
           return 0;
         }
         return prev - 1;
@@ -40,7 +40,7 @@ export const Error = () => {
 
           <div className="flex items-center justify-between mt-4 px-2 cursor-pointer ">
             <button className="bg-linear-to-r from-[#8E2DE2] to-[#5012cc] text-white px-4 py-2 rounded-full group transition-all ease-in-out duration-300 cursor-pointer" onClick={() => {
-                  navigate("/");
+                  navigate("/c");
                 }}>
               Return{" "}
               <i

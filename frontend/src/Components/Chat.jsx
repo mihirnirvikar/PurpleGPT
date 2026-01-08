@@ -63,7 +63,7 @@ export const Chat = () => {
         <div className="flex justify-center items-center h-full w-full">
           <div>
             <h1 className="text-black dark:text-white text-2xl text-center mb-2">
-              New Chats
+              New Chat
             </h1>
             <p className="text-black dark:text-white text-center mb-4">
               What’s on your mind? Ask anything, anywhere.

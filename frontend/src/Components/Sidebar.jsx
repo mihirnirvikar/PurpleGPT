@@ -137,7 +137,7 @@ export const Sidebar = () => {
         >
           <button className="flex items-center cursor-pointer">
             <i className="fa-solid fa-pen-to-square"></i>
-            &nbsp; {inActive ? "" : "New Chat"}
+            &nbsp; {inActive ? "" : "New chat"}
           </button>
         </div>
 
