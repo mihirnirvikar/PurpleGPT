@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("./authModel");
 
 const MessageSchema = new mongoose.Schema({
     role: {
@@ -24,6 +25,11 @@ const ThreadSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
     title: {
         type: String,

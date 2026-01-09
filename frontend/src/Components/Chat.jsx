@@ -3,7 +3,7 @@ import { AppContext } from "../context/AppContext.jsx";
 import ReactMarkDown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
-import axios from "axios";
+import api from "../utils/api.js";
 
 export const Chat = () => {
   const {
@@ -42,10 +42,10 @@ export const Chat = () => {
 
     const fetchHistoryChats = async () => {
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/thread/${prevChatsThreadId}`
+        const { data } = await api.get(
+          `/threads/${prevChatsThreadId}`
         );
-
+        
         setPrevChats(data.messages);
         setNewChat(false);
         setReply(null);

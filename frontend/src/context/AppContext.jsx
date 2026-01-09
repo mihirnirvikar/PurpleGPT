@@ -14,6 +14,19 @@ export const AppContextProvider = (props) => {
   const [prevChatsThreadId, setPrevChatsThreadId] = useState(null);
   const [activeThreadId, setActiveThreadId] = useState(null);
 
+  const [accessToken, setAccessToken] = useState(() => {
+    localStorage.getItem("accessToken") || null
+  });
+
+  const saveAccessToken = (token) => {
+    setAccessToken(token);
+    if(token) {
+      localStorage.setItem("accessToken", token);
+    }else{
+      localStorage.removeItem("accessToken");
+    }
+  }
+
   const values = {
     prompt,
     setPrompt,
@@ -33,6 +46,9 @@ export const AppContextProvider = (props) => {
     setPrevChatsThreadId,
     activeThreadId,
     setActiveThreadId,
+    accessToken,
+    setAccessToken,
+    saveAccessToken
   };
 
   return (

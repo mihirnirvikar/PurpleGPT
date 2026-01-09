@@ -1,12 +1,42 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Typewriter } from "react-simple-typewriter";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AppContext } from "../context/AppContext.jsx";
 
 export const Login = () => {
-  const formSubmitHandler = () => {};
   const [formType, setFormType] = useState("signup");
   const [eyeIcon, setEyeIcon] = useState("close");
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const { accessToken, saveAccessToken } = useContext(AppContext);
+
+  const formSubmitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      if (formType === "signup") {
+        const { data } = await axios.post(`${backendUrl}/api/auth/register`, {
+          name: username,
+          email: email,
+          password: password,
+        });
+        saveAccessToken(data.accessToken);
+        navigate("/");
+      } else {
+        const { data } = await axios.post(`${backendUrl}/api/auth/login`, {
+          email: email,
+          password: password,
+        });
+        saveAccessToken(data.accessToken);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -43,51 +73,53 @@ export const Login = () => {
               {formType === "signup" ? (
                 <div className="flex flex-col gap-4 w-full">
                   <div className="flex justify-center items-center flex-col gap-6 text-[#4f4f4f] dark:text-white">
-                    <h1 className="text-4xl font-semibold ">
-                      Sign Up
-                    </h1>
+                    <h1 className="text-4xl font-semibold ">Sign Up</h1>
                     <p className="text-md">Enter your credentials to sign up</p>
                   </div>
-                  <div className="w-120 mt-10 border dark:border-[#D9D9D9] border-[#4f4f4f] rounded-lg dark:outline-[#D9D9D9] outline-[#4f4f4f] focus-within:outline-1 hover:outline-1 flex justify-center items-center text-lg">
-                    <i class="fa-regular fa-user ml-4 mr-4"></i>
+                  <div className="w-120 mt-10 border dark:border-[#D9D9D9] border-[#4f4f4f] rounded-lg dark:outline-[#D9D9D9] outline-[#4f4f4f] focus-within:outline-2 hover:outline-2 flex justify-center items-center text-lg">
+                    <i className="fa-regular fa-user ml-4 mr-4"></i>
                     <input
                       id="username"
                       name="username"
                       className="w-full py-3 outline-none"
                       type="text"
                       placeholder="Username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>
                 </div>
               ) : (
                 <div className="flex justify-center items-center flex-col gap-6 mb-12 text-[#4f4f4f] dark:text-white">
-                  <h1 className="text-4xl font-semibold ">
-                    Sign In
-                  </h1>
+                  <h1 className="text-4xl font-semibold ">Sign In</h1>
                   <p className="text-md">Enter your credentials to sign in</p>
                 </div>
               )}
 
               <div>
-                <div className="w-120 mt-4 border dark:border-[#D9D9D9] border-[#4f4f4f] rounded-lg dark:outline-[#D9D9D9] outline-[#4f4f4f] focus-within:outline-1 hover:outline-1 flex justify-center items-center text-lg">
-                  <i class="fa-regular fa-envelope ml-4 mr-4"></i>
+                <div className="w-120 mt-4 border dark:border-[#D9D9D9] border-[#4f4f4f] rounded-lg dark:outline-[#D9D9D9] outline-[#4f4f4f] focus-within:outline-2 hover:outline-2 flex justify-center items-center text-lg">
+                  <i className="fa-regular fa-envelope ml-4 mr-4"></i>
                   <input
                     id="email"
                     name="email"
                     className="w-full py-3 outline-none"
                     type="text"
                     placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
 
-                <div className="w-120 border mt-4 dark:border-[#D9D9D9] border-[#4f4f4f] rounded-lg dark:outline-[#D9D9D9] outline-[#4f4f4f] focus-within:outline-1 hover:outline-1 flex justify-center items-center text-lg">
-                  <i class="fa-solid fa-lock ml-4 mr-4"></i>
+                <div className="w-120 border mt-4 dark:border-[#D9D9D9] border-[#4f4f4f] rounded-lg dark:outline-[#D9D9D9] outline-[#4f4f4f] focus-within:outline-2 hover:outline-2 flex justify-center items-center text-lg">
+                  <i className="fa-solid fa-lock ml-4 mr-4"></i>
                   <input
                     id="password"
                     name="password"
                     className="flex-1 py-3 outline-none"
                     type={`${eyeIcon === "open" ? "text" : "password"}`}
                     placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <div
                     className="cursor-pointer"
@@ -96,37 +128,49 @@ export const Login = () => {
                     }}
                   >
                     {eyeIcon === "open" ? (
-                      <i class="fa-solid fa-eye mr-4 ml-4"></i>
+                      <i className="fa-solid fa-eye mr-4 ml-4"></i>
                     ) : (
-                      <i class="fa fa-eye-slash mr-4 ml-4"></i>
+                      <i className="fa fa-eye-slash mr-4 ml-4"></i>
                     )}
                   </div>
                 </div>
 
                 <div className="flex justify-between items-center mt-2 text-sm">
                   <div></div>
-                  <div className="dark:text-[#A3A3A3] text-[#4f4f4f] cursor-pointer" onClick={() => {
-                    navigate("/c/reset-password");
-                  }}>
+                  <div
+                    className="dark:text-[#A3A3A3] text-[#4f4f4f] cursor-pointer hover:underline"
+                    onClick={() => {
+                      navigate("/c/reset-password");
+                    }}
+                  >
                     <p>Forget Password?</p>
                   </div>
                 </div>
 
                 <div>
                   <button
-                    className="w-120 h-12 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white dark:text-[#D9D9D9] mt-12 cursor-pointer"
+                    className="w-120 h-13 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white dark:text-[#D9D9D9] mt-12 cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white"
                     type="submit"
                   >
-                    <p className="text-lg font-semibold">{formType === "signup" ? "Sign Up" : "Sign In"}</p>
+                    <p className="text-lg font-semibold">
+                      {formType === "signup" ? "Sign Up" : "Sign In"}
+                    </p>
                   </button>
                 </div>
 
                 <div className="flex justify-between items-center mt-2 text-sm dark:text-[#A3A3A3]">
                   <div></div>
-                  <div className="cursor-pointer" onClick={() => {
-                    setFormType(formType === "signup" ? "signin" : "signup");
-                  }}>
-                    <p>{formType === "signup" ? "Already have an account?" : "Don't have an account?"}</p>
+                  <div
+                    className="cursor-pointer hover:underline"
+                    onClick={() => {
+                      setFormType(formType === "signup" ? "signin" : "signup");
+                    }}
+                  >
+                    <p>
+                      {formType === "signup"
+                        ? "Already have an account?"
+                        : "Don't have an account?"}
+                    </p>
                   </div>
                 </div>
               </div>

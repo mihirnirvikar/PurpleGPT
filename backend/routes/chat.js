@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const { Thread } = require("../models/Thread");
-const main = require("../utils/GeminiConfig");
 const {
   AllThreads,
   GetThread,
@@ -9,24 +7,21 @@ const {
   Chat,
   RenameThread
 } = require("../controllers/chat");
-
-router.get("/", async (req, res) => {
-  res.render("index.ejs", { message: "API is working" });
-});
+const userAuth = require("../middleware/userAuth");
 
 // get all threads in updatedAt order
-router.get("/thread", AllThreads);
+router.get("/threads", userAuth, AllThreads);
 
 // get thread by threadId
-router.get("/thread/:threadId", GetThread);
+router.get("/threads/:threadId", userAuth, GetThread);
 
 // Delete thread by threadId
-router.delete("/thread/:threadId", DeleteThread);
+router.delete("/threads/:threadId", userAuth, DeleteThread);
 
 // Rename thread by threadId
-router.put("/thread/:threadId", RenameThread)
+router.put("/threads/:threadId", userAuth, RenameThread)
 
 // create or update thread
-router.post("/chat", Chat);
+router.post("/chat", userAuth, Chat);
 
 module.exports = router;

@@ -2,7 +2,7 @@ import { Chat } from "./Chat.jsx";
 import { useContext, useState, useEffect, useRef } from "react";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import { SyncLoader } from "react-spinners";
-import axios from "axios";
+import api from "../utils/api.js";
 import { v4 as uuidv4 } from "uuid";
 import { AppContext } from "../context/AppContext.jsx";
 
@@ -38,20 +38,17 @@ export const ChatWindow = () => {
 
   const fetchResponse = async () => {
     if (!prompt.trim()) return;
-    if (!threadId) {
-      setThreadId(uuidv4());
+    let currentThreadId = threadId;
+    if (!currentThreadId) {
+      currentThreadId = uuidv4();
+      setThreadId(currentThreadId);
     }
+
     setLoading(true);
     try {
-      const { data } = await axios(import.meta.env.VITE_BACKEND_URL + "/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          threadId,
-          message: prompt,
-        },
+      const { data } = await api.post("/chat", {
+        threadId: currentThreadId,
+        message: prompt,
       });
       // console.log(data.resp);
       setReply(data.resp);
@@ -80,7 +77,7 @@ export const ChatWindow = () => {
         className="flex flex-col justify-between items-center h-screen px-4 py-2 "
         onClick={(e) => {
           e.stopPropagation();
-          setActiveThreadId(false);
+          setActiveThreadId(null);
           setActive(false);
         }}
       >
