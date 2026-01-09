@@ -193,7 +193,7 @@ export const ChatWindow = () => {
               <i className="fa-solid fa-plus"></i>
             </button>
             <input
-              className="w-166 outline-none dark:bg-[#303030] text-sm dark:text-white"
+              className="w-166 outline-none dark:bg-[#303030] text-sm dark:text-white py-4"
               type="text"
               ref={inputRef}
               placeholder="Ask anything..."

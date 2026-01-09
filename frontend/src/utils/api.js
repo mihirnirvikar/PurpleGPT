@@ -19,7 +19,7 @@ api.interceptors.response.use(
     const originalRequest = error.config;
     
     // access token expired
-    if (originalRequest.url.includes("/refresh-token")) {
+    if (originalRequest.url.includes("api/auth/refresh-token")) {
       return Promise.reject(error);
     }
 
@@ -30,8 +30,8 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/refresh-token`,
+        const res = await api.post(
+          `/api/auth/refresh-token`,
           {},
           { withCredentials: true }
         );
@@ -48,7 +48,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         // refresh token expired or invalid → logout
         localStorage.removeItem("accessToken");
-        window.location.href = "/c/login";
+        
         return Promise.reject(refreshError);
       }
     }

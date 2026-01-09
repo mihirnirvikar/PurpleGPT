@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
 import { Typewriter } from "react-simple-typewriter";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../utils/api.js";
 import { AppContext } from "../context/AppContext.jsx";
 
 export const Login = () => {
-  const [formType, setFormType] = useState("signup");
+  const [formType, setFormType] = useState("signin");
   const [eyeIcon, setEyeIcon] = useState("close");
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -18,20 +18,20 @@ export const Login = () => {
     e.preventDefault();
     try {
       if (formType === "signup") {
-        const { data } = await axios.post(`${backendUrl}/api/auth/register`, {
+        const { data } = await api.post(`/api/auth/register`, {
           name: username,
           email: email,
           password: password,
         });
         saveAccessToken(data.accessToken);
-        navigate("/");
+        navigate("/c");
       } else {
-        const { data } = await axios.post(`${backendUrl}/api/auth/login`, {
+        const { data } = await api.post(`/api/auth/login`, {
           email: email,
           password: password,
         });
         saveAccessToken(data.accessToken);
-        navigate("/");
+        navigate("/c");
       }
     } catch (error) {
       console.log(error);

@@ -13,9 +13,8 @@ export const AppContextProvider = (props) => {
   const [inActive, setInActive] = useState(false);
   const [prevChatsThreadId, setPrevChatsThreadId] = useState(null);
   const [activeThreadId, setActiveThreadId] = useState(null);
-
   const [accessToken, setAccessToken] = useState(() => {
-    localStorage.getItem("accessToken") || null
+    return localStorage.getItem("accessToken") || null
   });
 
   const saveAccessToken = (token) => {

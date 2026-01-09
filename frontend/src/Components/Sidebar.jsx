@@ -40,13 +40,13 @@ export const Sidebar = () => {
       setFilterData(filteredData);
       setChatHistory(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
   useEffect(() => {
     fetchHistory();
-  }, [chatHistory]);
+  }, [reply]);
 
   const handleDelete = async () => {
     try {
