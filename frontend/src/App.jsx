@@ -3,6 +3,7 @@ import { Layout } from "./pages/Layout.jsx";
 import { Login } from "./pages/Login.jsx";
 import { Home } from "./pages/Home.jsx";
 import { Error } from "./pages/Error.jsx";
+import { ResetPassword } from "./pages/ResetPassword.jsx";
 
 export const App = () => {
   return (
@@ -11,8 +12,8 @@ export const App = () => {
         <Route path="/" element={<Home />}></Route>
         <Route path="/c" element={<Layout />} />
         <Route path="/c/login" element={<Login />} />
+        <Route path="/c/reset-password" element={<ResetPassword />} />
         <Route path="*" element={<Error />} />
-        <Route path="/c/reset-password" element={<Login />} />
       </Routes>
     </>
   );
