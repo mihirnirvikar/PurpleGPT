@@ -13,29 +13,86 @@ export const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const inputRefs = useRef([]);
   const [otpForm, setOtpForm] = useState(false);
+  const [otp, setOtp] = useState(Array(6).fill(""));
 
   const handleInput = (e, index) => {
-    if (e.target.value.length > 0 && index < inputRefs.current.length - 1) {
+    const value = e.target.value.replace(/[^0-9]/g, "");
+    if (!value) return;
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    if (index < inputRefs.current.length - 1) {
       inputRefs.current[index + 1].focus();
     }
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && index > 0 && e.target.value.length === 0) {
-      inputRefs.current[index - 1].focus();
+    if (e.key === "Backspace") {
+      const newOtp = [...otp];
+
+      if (otp[index]) {
+        newOtp[index] = "";
+        setOtp(newOtp);
+      } else if (index > 0) {
+        inputRefs.current[index - 1].focus();
+      }
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+
+    const pastedData = e.clipboardData
+      .getData("text")
+      .replace(/[^0-9]/g, "")
+      .slice(0, 6);
+
+    if (!pastedData) return;
+
+    const newOtp = Array(6).fill("");
+
+    pastedData.split("").forEach((digit, index) => {
+      newOtp[index] = digit;
+    });
+
+    setOtp(newOtp);
+
+    const focusIndex = pastedData.length - 1;
+    if (inputRefs.current[focusIndex]) {
+      inputRefs.current[focusIndex].focus();
     }
   };
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
+    
+    const finalOtp = otp.join("");
+
+    if(finalOtp.length !== 6){
+      alert("Please enter a valid otp");
+      return;
+    }
+
     try {
-      const { data } = await api.post(`/api/auth/register`, {
-        name: username,
+      const { data } = await api.post(`/api/auth/reset-password`, {
         email: email,
+        otp: finalOtp,
         password: password,
+        confirmPassword: confirmPassword,
       });
-      saveAccessToken(data.accessToken);
-      navigate("/c");
+      console.log(data);
+      navigate("/c/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendEmailOtpHandler = async () => {
+    try {
+      const { data } = await api.post("/api/auth/send-reset-otp", { email });
+      setOtpForm(true);
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +137,7 @@ export const ResetPassword = () => {
 
                 <div>
                   <div className="w-full flex justify-center items-center mt-12 gap-1">
-                    <div className="w-100 border dark:border-[#D9D9D9] border-[#4f4f4f] rounded-lg dark:outline-[#D9D9D9] outline-[#4f4f4f] focus-within:outline-2 hover:outline-2 flex justify-center items-center text-lg">
+                    <div className={`${otpForm === true ? "w-120" : "w-100"} border dark:border-[#D9D9D9] border-[#4f4f4f] rounded-lg dark:outline-[#D9D9D9] outline-[#4f4f4f] focus-within:outline-2 hover:outline-2 flex justify-center items-center text-lg`}>
                       <i className="fa-regular fa-envelope ml-4 mr-4"></i>
                       <input
                         name="email"
@@ -92,13 +149,17 @@ export const ResetPassword = () => {
                         required
                       />
                     </div>
-                    <button
-                      className="w-20 h-13 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white dark:text-[#D9D9D9] cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white"
-                      type="submit"
-                    >
-                      <p className="text-md font-semibold">Submit</p>
-                    </button>
+                    {!otpForm && (
+                      <button
+                        className="w-20 h-13 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white dark:text-[#D9D9D9] cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white"
+                        onClick={sendEmailOtpHandler}
+                        type="button"
+                      >
+                        <p className="text-md font-semibold">Submit</p>
+                      </button>
+                    )}
                   </div>
+
                   {!otpForm && (
                     <div className="flex justify-center items-center mt-12 text-sm">
                       <button
@@ -128,12 +189,14 @@ export const ResetPassword = () => {
                           type="text"
                           maxLength="1"
                           key={index}
+                          value={otp[index] || ""}
                           name="otp"
                           required
                           className="w-12 h-12 bg-[#4f4f4f] text-white text-center text-xl rounded-md"
                           ref={(e) => (inputRefs.current[index] = e)}
                           onInput={(e) => handleInput(e, index)}
                           onKeyDown={(e) => handleKeyDown(e, index)}
+                          onPaste={index === 0 ? handlePaste : undefined}
                         />
                       ))}
                   </div>
@@ -207,7 +270,7 @@ export const ResetPassword = () => {
                   <div>
                     <button
                       className="w-120 h-13 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white dark:text-[#D9D9D9] mt-12 cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white"
-                      type="submit"
+                      
                     >
                       <p className="text-lg font-semibold">Submit</p>
                     </button>

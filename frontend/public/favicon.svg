@@ -3,7 +3,7 @@
     cx="100"
     cy="100"
     r="85"
-    stroke="#C269E4"
+    stroke="#AE4AFF"
     stroke-width="14"
     stroke-linecap="round"
     fill="none"
@@ -18,7 +18,7 @@
        L90 105 
        Q70 105 70 135 
        Z"
-    stroke="#C269E4"
+    stroke="#AE4AFF"
     stroke-width="16"
     stroke-linejoin="round"
     stroke-linecap="round"
@@ -30,10 +30,10 @@
     y1="105"
     x2="135"
     y2="105"
-    stroke="#C269E4"
+    stroke="#AE4AFF"
     stroke-width="10"
     stroke-linecap="round"
   />
 
-  <circle cx="145" cy="105" r="12" fill="#C269E4" />
+  <circle cx="145" cy="105" r="12" fill="#AE4AFF" />
 </svg>

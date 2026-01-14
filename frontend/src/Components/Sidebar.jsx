@@ -166,7 +166,7 @@ export const Sidebar = () => {
             {filterData?.map((chat, index) => {
               return (
                 <div
-                  className="w-full flex items-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg relative group"
+                  className={`w-full flex items-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg relative group `}
                   key={index}
                   onClick={() => {
                     setNewChat(false);
@@ -189,7 +189,7 @@ export const Sidebar = () => {
                           setInputValue("");
                         }
                       }}
-                      className="w-[90%] bg-transparent outline-none text-black dark:text-white"
+                      className="w-[90%]  outline-none text-black dark:text-white"
                     />
                   ) : (
                     <div className="flex items-center w-full">
@@ -211,7 +211,7 @@ export const Sidebar = () => {
                   )}
 
                   {activeThreadId === chat.threadId && (
-                    <div className="z-50 absolute top-10 right-0 w-30 bg-[#FFFFFF] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
+                    <div className="z-50 absolute top-10 right-0 w-30 bg-[#FFFFFF] dark:bg-[#424242] p-1 rounded-lg dark:text-white]">
                       <ul className="w-full">
                         <li
                           className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"

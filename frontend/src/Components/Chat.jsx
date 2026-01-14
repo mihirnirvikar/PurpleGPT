@@ -76,7 +76,7 @@ export const Chat = () => {
         {prevChats?.slice(0, -1).map((chat, index) =>
           chat.role === "user" ? (
             <div className="flex justify-end" key={index}>
-              <div className="bg-[#C269E4] text-white px-4 py-2 rounded-lg rounded-br-none max-w-full">
+              <div className="bg-[#AE4AFF] text-white px-4 py-2 rounded-lg rounded-br-none max-w-full">
                 {chat.content}
               </div>
             </div>

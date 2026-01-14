@@ -296,10 +296,14 @@ const sendResetOtp = async (req, res) => {
 
 // get reset otp from user
 const resetPassword = async (req, res) => {
-  const { email, otp, newPassword } = req.body;
+  const { email, otp, password, confirmPassword } = req.body;
 
-  if (!email || !otp || !newPassword) {
+  if (!email || !otp || !password, !confirmPassword) {
     return res.status(400).json({ error: "All fields are required!" });
+  }
+
+  if(password !== confirmPassword) {
+    return res.status(400).json({ error: "Passwords do not match!" });
   }
 
   try {
@@ -313,7 +317,7 @@ const resetPassword = async (req, res) => {
       return res.status(400).json({ error: "Invalid Otp or expired" });
     }
 
-    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    const hashedNewPassword = await bcrypt.hash(confirmPassword, 10);
     user.password = hashedNewPassword;
     user.resetOtp = "";
     user.resetOtpExpireAt = 0;
