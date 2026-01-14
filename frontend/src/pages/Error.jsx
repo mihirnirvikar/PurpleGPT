@@ -5,20 +5,20 @@ export const Error = () => {
   const navigate = useNavigate();
   const [count, setCount] = useState(10);
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setCount((prev) => {
-  //       if (prev <= 1) {
-  //         clearInterval(timer);
-  //         navigate("/c");
-  //         return 0;
-  //       }
-  //       return prev - 1;
-  //     });
-  //   }, 1000);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCount((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          navigate("/c");
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-  //   return () => clearInterval(timer);
-  // }, [navigate]);
+    return () => clearInterval(timer);
+  }, [navigate]);
 
   return (
     <>

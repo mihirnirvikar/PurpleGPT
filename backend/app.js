@@ -12,6 +12,7 @@ const { Thread } = require("./models/Thread");
 const app = express();
 const port = process.env.PORT || 3000;
 const chatRouter = require("./routes/chat.js");
+const userRouter = require("./routes/userRoutes");
 
 app.use(cors({
   origin: "http://localhost:5173",
@@ -31,8 +32,10 @@ connectMongoDB();
 app.use("/", chatRouter);
 
 // Routes for auth
-app.use("/api/auth", authRouter)
+app.use("/api/auth", authRouter);
 
+// Routes for user
+app.use("/api/user", userRouter);
 
 
 app.listen(port, () => {

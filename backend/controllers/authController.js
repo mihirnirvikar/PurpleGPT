@@ -324,6 +324,16 @@ const resetPassword = async (req, res) => {
 
     await user.save();
 
+    // send welcome back mail
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL,
+      to: user.email,
+      subject: "PurpleGPT Password Reset Successfully",
+      text: `Hi ${user.name},\n\nYour password reset successfully\n\nBest,\nPurpleGPT Team`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
     return res.status(200).json({ success: "Reset Password Successfully" });
   } catch (error) {
     console.log(error);
@@ -334,7 +344,7 @@ const resetPassword = async (req, res) => {
 const isAccountVerified = async (req, res) => {
   const { userId } = req.user;
 
-  if (!userId) {
+  if (!userId) {za
     return res.status(401).json({ error: "Unauthorized request" });
   }
 
