@@ -3,6 +3,7 @@ import { ThemeContext } from "../context/ThemeContext.jsx";
 import { AppContext } from "../context/AppContext.jsx";
 import api from "../utils/api.js";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "react-toastify";
 export const Sidebar = () => {
   const { theme } = useContext(ThemeContext);
   const [filterData, setFilterData] = useState([]);
@@ -39,8 +40,10 @@ export const Sidebar = () => {
       });
       setFilterData(filteredData);
       setChatHistory(data);
+      // toast.success("History Fetched Successfully");
     } catch (error) {
-      // console.log(error);
+      console.log(error);
+      toast.error("Failed to fetch history");
     }
   };
 
@@ -54,8 +57,10 @@ export const Sidebar = () => {
       setPrevChats([]);
       setNewChat(true);
       fetchHistory();
+      toast.success("Thread Deleted Successfully");
     } catch (error) {
       console.log(error);
+      toast.error("Failed to delete thread");
     }
   };
 
@@ -81,14 +86,17 @@ export const Sidebar = () => {
       setRenameThreadId(null);
       setActiveThreadId(null);
       setInputValue("");
+      toast.success("Thread Renamed Successfully");
     } catch (error) {
       console.log(error);
+      toast.error("Failed to rename thread");
     }
   };
 
   return (
     <>
       <div className={`p-2 w-full`}>
+        
         <div
           className={`flex items-center ${
             inActive ? "ml-2 pt-1 " : "justify-between pt-1"

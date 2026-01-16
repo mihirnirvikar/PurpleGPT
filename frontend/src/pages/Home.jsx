@@ -14,7 +14,7 @@ export const Home = () => {
       <div className="absolute z-100 top-8 right-10 flex items-center gap-4">
         <button
           onClick={() => navigate("/c/login")}
-          className="text-gray-300 hover:text-white transition cursor-pointer"
+          className="text-gray-300 hover:text-white transition cursor-pointer hover:underline"
         >
           Login
         </button>
@@ -44,7 +44,7 @@ export const Home = () => {
       </div>
 
       <div className="w-1/2 relative z-10 text-center">
-        <div className="mx-auto mb-12 w-60 h-60 flex items-center justify-center rounded-full backdrop-blur-md bg-white/20 dark:bg-black/20">
+        <div className="mx-auto mb-12 w-60 h-60 flex items-center justify-center rounded-full backdrop-blur-md bg-black/20">
           <img
             src="/favicon.svg"
             alt="PurpleGPT Logo"

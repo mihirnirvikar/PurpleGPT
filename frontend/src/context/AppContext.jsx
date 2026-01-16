@@ -1,5 +1,6 @@
 import { createContext } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from "../utils/api.js";
 
 export const AppContext = createContext();
 
@@ -16,6 +17,7 @@ export const AppContextProvider = (props) => {
   const [accessToken, setAccessToken] = useState(() => {
     return localStorage.getItem("accessToken") || null
   });
+  const [userData, setUserData] = useState({});
 
   const saveAccessToken = (token) => {
     setAccessToken(token);
@@ -25,6 +27,19 @@ export const AppContextProvider = (props) => {
       localStorage.removeItem("accessToken");
     }
   }
+
+  const fetchUserData = async() => {
+    try {
+      const {data} = await api.get("/api/user/get-user-info");
+      setUserData(data.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchUserData();
+  }, [])
 
   const values = {
     prompt,
@@ -47,7 +62,8 @@ export const AppContextProvider = (props) => {
     setActiveThreadId,
     accessToken,
     setAccessToken,
-    saveAccessToken
+    saveAccessToken,
+    userData
   };
 
   return (

@@ -3,6 +3,7 @@ import { Typewriter } from "react-simple-typewriter";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api.js";
 import { AppContext } from "../context/AppContext.jsx";
+import { toast } from "react-toastify";
 
 export const ResetPassword = () => {
   const [eyeIcon, setEyeIcon] = useState("close");
@@ -84,19 +85,29 @@ export const ResetPassword = () => {
       });
       console.log(data);
       navigate("/c/login");
+      toast.success(data.message);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
   const sendEmailOtpHandler = async () => {
+    if(!email) {
+      toast.error("Please enter your email");
+      return;
+    }
+    
     try {
       const { data } = await api.post("/api/auth/send-reset-otp", { email });
       setOtpForm(true);
+      toast.success(data.message);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
     }
   };
+
   return (
     <>
       <div className="flex h-screen  items-center justify-center dark:bg-[#212121] dark:text-white bg-white text-[#4f4f4f]">

@@ -11,12 +11,12 @@ const transporter = require("../utils/nodemailer");
 const register = async (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
-    return res.status(400).json({ error: "All fields are required" });
+    return res.status(400).json({ message: "All fields are required" });
   }
   try {
     const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: "User already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     // hash the password
@@ -66,7 +66,7 @@ const register = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -74,20 +74,20 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ error: "All fields are required" });
+    return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
     const user = await UserModel.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const isPasswordMatched = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatched) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     // generate access and refresh token
@@ -124,7 +124,7 @@ const login = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -140,7 +140,7 @@ const logout = async (req, res) => {
     return res.status(200).json({ message: "User logged out successfully" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -151,7 +151,7 @@ const refreshAccessToken = async (req, res) => {
   if (!refreshToken) {
     return res
       .status(401)
-      .json({ error: "Refresh token missing, login again!" });
+      .json({ message: "Refresh token missing, login again!" });
   }
 
   try {
@@ -160,11 +160,11 @@ const refreshAccessToken = async (req, res) => {
     const user = await UserModel.findById(decoded.userId);
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     if (user.refreshToken !== refreshToken) {
-      return res.status(403).json({ error: "Invalid refresh token" });
+      return res.status(403).json({ message: "Invalid refresh token" });
     }
 
     const newAccessToken = generateAccessToken(user._id);
@@ -175,7 +175,7 @@ const refreshAccessToken = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(501).json({ error: "Internal server error" });
+    return res.status(501).json({ message: "Internal server error" });
   }
 };
 
@@ -184,13 +184,13 @@ const sendVerifyOtp = async (req, res) => {
   const { userId } = req.user;
 
   if (!userId) {
-    return res.status(401).json({ error: "Unauthorized request" });
+    return res.status(401).json({ message: "Unauthorized request" });
   }
 
   const user = await UserModel.findOne({ _id: userId });
 
   if (!user) {
-    return res.status(404).json({ error: "User Not Found" });
+    return res.status(404).json({ message: "User Not Found" });
   }
 
   try {
@@ -213,7 +213,7 @@ const sendVerifyOtp = async (req, res) => {
     return res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -223,22 +223,22 @@ const verifyOtp = async (req, res) => {
   const { userId } = req.user;
 
   if (!otp) {
-    return res.status(400).json({ error: "All fields are required" });
+    return res.status(400).json({ message: "All fields are required" });
   }
 
   if (!userId) {
-    return res.status(401).json({ error: "Unauthorized request" });
+    return res.status(401).json({ message: "Unauthorized request" });
   }
 
   try {
     const user = await UserModel.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     if (user.verifyOtpExpireAt < Date.now() || otp !== user.verifyOtp) {
-      return res.status(400).json({ error: "Invalid Otp or expired" });
+      return res.status(400).json({ message: "Invalid Otp or expired" });
     }
 
     user.verifyOtp = "";
@@ -247,11 +247,11 @@ const verifyOtp = async (req, res) => {
 
     await user.save();
 
-    return res.status(200).json({ success: "User verified successfully" });
+    return res.status(200).json({ message: "User verified successfully" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      error: "Internal server error",
+      message: "Internal server error",
     });
   }
 };
@@ -261,13 +261,13 @@ const sendResetOtp = async (req, res) => {
   const { email } = req.body;
 
   if (!email) {
-    return res.status(400).json({ error: "All fields are required" });
+    return res.status(400).json({ message: "All fields are required" });
   }
 
   const user = await UserModel.findOne({ email: email });
 
   if (!user) {
-    return res.status(404).json({ error: "User Not Found" });
+    return res.status(404).json({ message: "User Not Found" });
   }
 
   try {
@@ -290,7 +290,7 @@ const sendResetOtp = async (req, res) => {
     return res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -299,22 +299,22 @@ const resetPassword = async (req, res) => {
   const { email, otp, password, confirmPassword } = req.body;
 
   if (!email || !otp || !password, !confirmPassword) {
-    return res.status(400).json({ error: "All fields are required!" });
+    return res.status(400).json({ message: "All fields are required!" });
   }
 
   if(password !== confirmPassword) {
-    return res.status(400).json({ error: "Passwords do not match!" });
+    return res.status(400).json({ message: "Passwords do not match!" });
   }
 
   try {
     const user = await UserModel.findOne({ email: email });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     if (user.resetOtpExpireAt < Date.now() || user.resetOtp !== otp) {
-      return res.status(400).json({ error: "Invalid Otp or expired" });
+      return res.status(400).json({ message: "Invalid Otp or expired" });
     }
 
     const hashedNewPassword = await bcrypt.hash(confirmPassword, 10);
@@ -334,10 +334,10 @@ const resetPassword = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    return res.status(200).json({ success: "Reset Password Successfully" });
+    return res.status(200).json({ message: "Reset Password Successfully" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -345,14 +345,14 @@ const isAccountVerified = async (req, res) => {
   const { userId } = req.user;
 
   if (!userId) {za
-    return res.status(401).json({ error: "Unauthorized request" });
+    return res.status(401).json({ message: "Unauthorized request" });
   }
 
   try {
     const user = await UserModel.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     if (!user.isAccountVerified) {
@@ -362,7 +362,7 @@ const isAccountVerified = async (req, res) => {
     return res.status(200).json({ isAccountVerified: user.isAccountVerified });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 

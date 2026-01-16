@@ -5,6 +5,8 @@ import { SyncLoader } from "react-spinners";
 import api from "../utils/api.js";
 import { v4 as uuidv4 } from "uuid";
 import { AppContext } from "../context/AppContext.jsx";
+import {useNavigate} from "react-router-dom"
+
 
 export const ChatWindow = () => {
   const { theme, setTheme, toggleTheme } = useContext(ThemeContext);
@@ -20,11 +22,14 @@ export const ChatWindow = () => {
     threadId,
     setThreadId,
     setActiveThreadId,
+    userData,
   } = useContext(AppContext);
 
   const [active, setActive] = useState(false);
   const [model, setModel] = useState(localStorage.getItem("model") || "2.0");
   const inputRef = useRef(null);
+  const navigate = useNavigate();
+  
 
   const BtnHandler = () => {
     toggleTheme();
@@ -71,6 +76,8 @@ export const ChatWindow = () => {
     setPrompt("");
   }, [reply]);
 
+  
+
   return (
     <>
       <div
@@ -81,6 +88,7 @@ export const ChatWindow = () => {
           setActive(false);
         }}
       >
+       
         <div className="headerSection flex z-10 justify-between items-center w-full sticky top-0 bg-white dark:bg-[#212121] ">
           <div className="flex items-center relative">
             <h1
@@ -92,7 +100,7 @@ export const ChatWindow = () => {
               }}
             >
               PurpleGPT{" "}
-              <span className="text-lg text-gray-600 dark:text-gray-400">
+              <span className="text-lg text-gray-600 dark:text-gray-400 font-semibold">
                 {model}
                 <i
                   className={`fa-solid fa-angle-${
@@ -154,9 +162,13 @@ export const ChatWindow = () => {
 
             <button
               className="
-            flex items-center justify-center w-10 h-10 p-1.5 text-xl rounded-full bg-[#C269E4] hover:bg-[#ac5ecb] dark:hover:bg-[#ad50d2] text-white mr-4 cursor-pointer"
+            flex items-center justify-center w-10 h-10 pb-1 text-2xl rounded-full bg-[#C269E4] hover:bg-[#ac5ecb] dark:hover:bg-[#ad50d2] text-white mr-4 cursor-pointer font-bold"
             >
-              <i className="fa-regular fa-user"></i>
+              {userData?.name ? (
+                userData.name.charAt(0).toUpperCase()
+              ) : (
+                <i className="fa-regular fa-user"></i>
+              )}
             </button>
           </div>
         </div>

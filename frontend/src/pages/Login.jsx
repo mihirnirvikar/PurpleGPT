@@ -3,6 +3,7 @@ import { Typewriter } from "react-simple-typewriter";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api.js";
 import { AppContext } from "../context/AppContext.jsx";
+import { toast } from "react-toastify";
 
 export const Login = () => {
   const [formType, setFormType] = useState("signin");
@@ -25,6 +26,7 @@ export const Login = () => {
         });
         saveAccessToken(data.accessToken);
         navigate("/c");
+        toast.success(data.message);
       } else {
         const { data } = await api.post(`/api/auth/login`, {
           email: email,
@@ -32,9 +34,11 @@ export const Login = () => {
         });
         saveAccessToken(data.accessToken);
         navigate("/c");
+        toast.success(data.message);
       }
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -86,6 +90,7 @@ export const Login = () => {
                       placeholder="Username"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
+                      required
                     />
                   </div>
                 </div>
@@ -107,6 +112,7 @@ export const Login = () => {
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -120,6 +126,7 @@ export const Login = () => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
                   <div
                     className="cursor-pointer"

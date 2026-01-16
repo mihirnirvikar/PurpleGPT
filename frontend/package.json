@@ -19,6 +19,7 @@
     "react-router-dom": "^7.11.0",
     "react-simple-typewriter": "^5.0.1",
     "react-spinners": "^0.17.0",
+    "react-toastify": "^11.0.5",
     "rehype-highlight": "^7.0.2",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.18",
