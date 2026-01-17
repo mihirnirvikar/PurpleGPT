@@ -18,6 +18,8 @@ export const AppContextProvider = (props) => {
     return localStorage.getItem("accessToken") || null
   });
   const [userData, setUserData] = useState({});
+  const [isLoggedIn, setLoggedIn] = useState(false)
+  const [guestSessionId, setGuestSessionId] = useState(localStorage.getItem("guestSessionId") || null)
 
   const saveAccessToken = (token) => {
     setAccessToken(token);
@@ -29,6 +31,10 @@ export const AppContextProvider = (props) => {
   }
 
   const fetchUserData = async() => {
+    if(!isLoggedIn) {
+      return
+    }
+
     try {
       const {data} = await api.get("/api/user/get-user-info");
       setUserData(data.data)
@@ -63,7 +69,11 @@ export const AppContextProvider = (props) => {
     accessToken,
     setAccessToken,
     saveAccessToken,
-    userData
+    userData,
+    isLoggedIn,
+    setLoggedIn,
+    guestSessionId,
+    setGuestSessionId
   };
 
   return (

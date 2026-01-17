@@ -24,12 +24,18 @@ export const Sidebar = () => {
     setPrevChatsThreadId,
     activeThreadId,
     setActiveThreadId,
+    isLoggedIn
   } = useContext(AppContext);
 
   const [renameThreadId, setRenameThreadId] = useState(null);
   const [inputValue, setInputValue] = useState("");
 
   const fetchHistory = async () => {
+    
+    if(!isLoggedIn) {
+      return
+    }
+
     try {
       const { data } = await api.get(`/threads`);
       const filteredData = data.map((item) => {
@@ -43,7 +49,7 @@ export const Sidebar = () => {
       // toast.success("History Fetched Successfully");
     } catch (error) {
       console.log(error);
-      toast.error("Failed to fetch history");
+      // toast.error("Failed to fetch history");
     }
   };
 

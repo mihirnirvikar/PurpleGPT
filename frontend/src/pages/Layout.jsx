@@ -2,9 +2,10 @@ import { Sidebar } from "../components/Sidebar.jsx";
 import { ChatWindow } from "../components/ChatWindow.jsx";
 import { useState, useContext, useRef, useEffect } from "react";
 import { AppContext } from "../context/AppContext.jsx";
+import api from "../utils/api.js";
 
 export const Layout = () => {
-  const { inActive, setInActive } = useContext(AppContext);
+  const { inActive, setInActive, guestSessionId ,setGuestSessionId } = useContext(AppContext);
   const divRef = useRef(null);
 
   useEffect(() => {
@@ -14,6 +15,25 @@ export const Layout = () => {
       divRef.current.classList.remove("inActive");
     }
   }, [inActive]);
+
+  const handleGuestUser = async() => {
+    if(guestSessionId){
+      return
+    }
+
+    try {
+      const {data} = await api.get("/api/guest/create-guest-session");
+      console.log(data.guestSessionId)
+      setGuestSessionId(data.guestSessionId)
+      localStorage.setItem("guestSessionId", data.guestSessionId)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    handleGuestUser();
+  }, [])
 
   return (
     <>

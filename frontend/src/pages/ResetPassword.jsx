@@ -94,7 +94,7 @@ export const ResetPassword = () => {
 
   const sendEmailOtpHandler = async () => {
     if(!email) {
-      toast.error("Please enter your email");
+      toast.error("Email is required");
       return;
     }
     

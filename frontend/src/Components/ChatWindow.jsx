@@ -216,7 +216,7 @@ export const ChatWindow = () => {
               onKeyDown={handleKeyDown}
             />
             <button
-              className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 mr-1 rounded-full  hover:bg-[#E5E7EB]  dark:hover:bg-[#454545] cursor-pointer"
+              className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1.5 mr-1 rounded-full  hover:bg-[#E5E7EB]  dark:hover:bg-[#454545] cursor-pointer"
               onClick={fetchResponse}
             >
               <i className="fa-solid fa-paper-plane text-[#AE4AFF]"></i>
