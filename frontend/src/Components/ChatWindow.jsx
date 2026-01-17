@@ -5,8 +5,8 @@ import { SyncLoader } from "react-spinners";
 import api from "../utils/api.js";
 import { v4 as uuidv4 } from "uuid";
 import { AppContext } from "../context/AppContext.jsx";
-import {useNavigate} from "react-router-dom"
-
+import { useNavigate } from "react-router-dom";
+import { guestApi } from "../utils/api.js";
 
 export const ChatWindow = () => {
   const { theme, setTheme, toggleTheme } = useContext(ThemeContext);
@@ -29,7 +29,6 @@ export const ChatWindow = () => {
   const [model, setModel] = useState(localStorage.getItem("model") || "2.0");
   const inputRef = useRef(null);
   const navigate = useNavigate();
-  
 
   const BtnHandler = () => {
     toggleTheme();
@@ -51,15 +50,31 @@ export const ChatWindow = () => {
 
     setLoading(true);
     try {
-      const { data } = await api.post("/chat", {
-        threadId: currentThreadId,
-        message: prompt,
-      });
-      // console.log(data.resp);
-      setReply(data.resp);
-      setNewChat(false);
+      if (userData) {
+        const { data } = await api.post("/chat", {
+          threadId: currentThreadId,
+          message: prompt,
+        });
+        // console.log(data.resp);
+        setReply(data.resp);
+        setNewChat(false);
+      } else {
+        const { data } = await guestApi.post("/api/guest/guest-chat", {
+          threadId: currentThreadId,
+          message: prompt,
+        });
+        // console.log(data.resp);
+        setReply(data.resp);
+        setNewChat(false);
+      }
     } catch (error) {
       console.log(error);
+
+      // Guest limit reached
+      if (error.response?.status === 403) {
+        toast.error(error.response.data.message);
+        navigate("/c/login");
+      }
     }
     setLoading(false);
   };
@@ -76,8 +91,6 @@ export const ChatWindow = () => {
     setPrompt("");
   }, [reply]);
 
-  
-
   return (
     <>
       <div
@@ -88,7 +101,6 @@ export const ChatWindow = () => {
           setActive(false);
         }}
       >
-       
         <div className="headerSection flex z-10 justify-between items-center w-full sticky top-0 bg-white dark:bg-[#212121] ">
           <div className="flex items-center relative">
             <h1

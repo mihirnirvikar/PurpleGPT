@@ -5,6 +5,11 @@ const api = axios.create({
   withCredentials: true,
 });
 
+export const guestApi = axios.create({
+  baseURL: import.meta.env.VITE_BACKEND_URL,
+  withCredentials: true,
+})
+
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
   if (token) {
@@ -17,7 +22,7 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    
+
     // access token expired
     if (originalRequest.url.includes("api/auth/refresh-token")) {
       return Promise.reject(error);
@@ -33,13 +38,14 @@ api.interceptors.response.use(
         const res = await api.post(
           `/api/auth/refresh-token`,
           {},
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         const newAccessToken = res.data.accessToken;
-        
+
         // save new access token
         localStorage.setItem("accessToken", newAccessToken);
+        localStorage.setItem("isLoggedIn", true);
 
         // retry original request
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
@@ -48,13 +54,14 @@ api.interceptors.response.use(
       } catch (refreshError) {
         // refresh token expired or invalid → logout
         localStorage.removeItem("accessToken");
-        
+        localStorage.removeItem("isLoggedIn");
+
         return Promise.reject(refreshError);
       }
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

@@ -17,8 +17,8 @@ export const AppContextProvider = (props) => {
   const [accessToken, setAccessToken] = useState(() => {
     return localStorage.getItem("accessToken") || null
   });
-  const [userData, setUserData] = useState({});
-  const [isLoggedIn, setLoggedIn] = useState(false)
+  const [userData, setUserData] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") || false)
   const [guestSessionId, setGuestSessionId] = useState(localStorage.getItem("guestSessionId") || null)
 
   const saveAccessToken = (token) => {
@@ -35,17 +35,31 @@ export const AppContextProvider = (props) => {
       return
     }
 
+    const token = localStorage.getItem("accessToken")
+
+    if(!token){
+      setIsLoggedIn(false)
+      setUserData(null)
+      return 
+    }
+
     try {
       const {data} = await api.get("/api/user/get-user-info");
       setUserData(data.data)
+      setIsLoggedIn(true)
+      // console.log(data)
     } catch (error) {
       console.log(error);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("isLoggedIn");
+      setIsLoggedIn(false);
+      setUserData(null);
     }
   }
 
   useEffect(() => {
     fetchUserData();
-  }, [])
+  }, [accessToken])
 
   const values = {
     prompt,
@@ -71,7 +85,7 @@ export const AppContextProvider = (props) => {
     saveAccessToken,
     userData,
     isLoggedIn,
-    setLoggedIn,
+    setIsLoggedIn,
     guestSessionId,
     setGuestSessionId
   };

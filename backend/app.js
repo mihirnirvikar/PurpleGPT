@@ -14,7 +14,7 @@ const port = process.env.PORT || 3000;
 const chatRouter = require("./routes/chat.js");
 const userRouter = require("./routes/userRoutes");
 const guestRouter = require("./routes/guestRoutes");
-const {connectRedis} = require("./utils/redis");
+
 
 app.use(cors({
   origin: "http://localhost:5173",
@@ -30,8 +30,6 @@ app.use(express.static("public"));
 // Connect to MongoDB
 connectMongoDB();
 
-// Connect to redis
-// connectRedis();
 
 // Routes for chat
 app.use("/", chatRouter);

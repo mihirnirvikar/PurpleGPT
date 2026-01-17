@@ -13,10 +13,11 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  const { accessToken, saveAccessToken } = useContext(AppContext);
+  const { accessToken, saveAccessToken, setIsLoggedIn } = useContext(AppContext);
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
+
     try {
       if (formType === "signup") {
         const { data } = await api.post(`/api/auth/register`, {
@@ -25,6 +26,8 @@ export const Login = () => {
           password: password,
         });
         saveAccessToken(data.accessToken);
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", true);
         navigate("/c");
         toast.success(data.message);
       } else {
@@ -33,6 +36,8 @@ export const Login = () => {
           password: password,
         });
         saveAccessToken(data.accessToken);
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", true);
         navigate("/c");
         toast.success(data.message);
       }
