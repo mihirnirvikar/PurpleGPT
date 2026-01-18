@@ -19,7 +19,7 @@ export const AppContextProvider = (props) => {
   });
   const [userData, setUserData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") || false)
-  const [guestSessionId, setGuestSessionId] = useState(localStorage.getItem("guestSessionId") || null)
+  
 
   const saveAccessToken = (token) => {
     setAccessToken(token);
@@ -84,10 +84,9 @@ export const AppContextProvider = (props) => {
     setAccessToken,
     saveAccessToken,
     userData,
+    setUserData,
     isLoggedIn,
     setIsLoggedIn,
-    guestSessionId,
-    setGuestSessionId
   };
 
   return (

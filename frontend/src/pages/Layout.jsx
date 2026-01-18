@@ -23,9 +23,6 @@ export const Layout = () => {
 
     try {
       const {data} = await api.get("/api/guest/create-guest-session");
-      console.log(data.guestSessionId)
-      setGuestSessionId(data.guestSessionId)
-      localStorage.setItem("guestSessionId", data.guestSessionId)
     } catch (error) {
       console.log(error)
     }

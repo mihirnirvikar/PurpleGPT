@@ -40,7 +40,7 @@ const guestChat = async (req, res) => {
       await redisClient.expire(limitKey, 86400);
     }
 
-    if (count > 11) {
+    if (count > 10) {
       return res.status(403).json({
         message:
           "You have reached the limit of 10 messages per day. Please login to continue.",

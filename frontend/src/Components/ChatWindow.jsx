@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { AppContext } from "../context/AppContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { guestApi } from "../utils/api.js";
+import { toast } from "react-toastify";
 
 export const ChatWindow = () => {
   const { theme, setTheme, toggleTheme } = useContext(ThemeContext);
@@ -23,12 +24,16 @@ export const ChatWindow = () => {
     setThreadId,
     setActiveThreadId,
     userData,
+    setUserData,
+    isLoggedIn,
+    setIsLoggedIn
   } = useContext(AppContext);
 
   const [active, setActive] = useState(false);
   const [model, setModel] = useState(localStorage.getItem("model") || "2.0");
   const inputRef = useRef(null);
   const navigate = useNavigate();
+  const [userIconActive, setUserIconActive] = useState(false);
 
   const BtnHandler = () => {
     toggleTheme();
@@ -68,7 +73,7 @@ export const ChatWindow = () => {
         setNewChat(false);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
 
       // Guest limit reached
       if (error.response?.status === 403) {
@@ -91,6 +96,22 @@ export const ChatWindow = () => {
     setPrompt("");
   }, [reply]);
 
+  const handleLogout = async() => {
+    try {
+      const {data} = await api.post("/api/auth/logout")
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("isLoggedIn");
+      setIsLoggedIn(false);
+      setUserData(null);
+      toast.success(data.message);
+      navigate("/c/login");
+    } catch (error) {
+      toast(error.response?.message);
+    }
+  }
+
+  
+
   return (
     <>
       <div
@@ -99,6 +120,7 @@ export const ChatWindow = () => {
           e.stopPropagation();
           setActiveThreadId(null);
           setActive(false);
+          setUserIconActive(false);
         }}
       >
         <div className="headerSection flex z-10 justify-between items-center w-full sticky top-0 bg-white dark:bg-[#212121] ">
@@ -160,7 +182,7 @@ export const ChatWindow = () => {
             )}
           </div>
 
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-3 items-center justify-center">
             <button
               className="flex items-center justify-center w-9 h-9 p-1.5 text-xl rounded-full bg-gray-200 text-black hover:bg-gray-300 dark:bg-[#212121] dark:hover:bg-[#3A3A3A] dark:text-white cursor-pointer"
               onClick={BtnHandler}
@@ -172,16 +194,80 @@ export const ChatWindow = () => {
               )}
             </button>
 
-            <button
-              className="
-            flex items-center justify-center w-10 h-10 pb-1 text-2xl rounded-full bg-[#C269E4] hover:bg-[#ac5ecb] dark:hover:bg-[#ad50d2] text-white mr-4 cursor-pointer font-bold"
-            >
-              {userData?.name ? (
-                userData.name.charAt(0).toUpperCase()
-              ) : (
-                <i className="fa-regular fa-user"></i>
+            <div className="flex items-center justify-center">
+              <button
+                className="flex items-center justify-center w-10 h-10 p-1.5 text-2xl font-semibold rounded-full bg-[#C269E4] hover:bg-[#ac5ecb] dark:hover:bg-[#ad50d2] text-white mr-4 cursor-pointer "
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setUserIconActive(!userIconActive);
+                }}
+              >
+                {userData?.name ? (
+                  userData.name.charAt(0).toUpperCase()
+                ) : (
+                  <i className="fa-regular fa-user"></i>
+                )}
+              </button>
+
+              {userIconActive && (
+                <div className="z-990 absolute top-12 right-5 w-36 bg-[#F9F9F9] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
+                  <ul className="w-full">
+                    <li
+                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                      onClick={() => {
+                        localStorage.setItem("model", "1.0");
+                        setModel("1.0");
+                        setActive(false);
+                      }}
+                    >
+                      <i className="fa-regular fa-user"></i> &nbsp;Profile
+                    </li>
+                    <li
+                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                      onClick={() => {
+                        localStorage.setItem("model", "2.0");
+                        setModel("2.0");
+                        setActive(false);
+                      }}
+                    >
+                      <i className="fa-solid fa-gear"></i> &nbsp;Setting
+                    </li>
+                    <li
+                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                      onClick={() => {
+                        localStorage.setItem("model", "3.0");
+                        setModel("3.0");
+                        setActive(false);
+                      }}
+                    >
+                      <i className="fa-solid fa-box-archive"></i> &nbsp;Archive
+                    </li>
+
+                    <li
+                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                      onClick={() => {
+                        localStorage.setItem("model", "3.0");
+                        setModel("3.0");
+                        setActive(false);
+                      }}
+                    >
+                      {isLoggedIn ? (
+                        <div onClick={handleLogout}>
+                          <i className="fas fa-sign-out"></i> &nbsp;logout
+                        </div>
+                      ) : (
+                        <div onClick={() => {
+                          navigate("/c/login")
+                        }}>
+                          <i className="fa-solid fa-arrow-right-to-bracket"></i>{" "}
+                          &nbsp;login
+                        </div>
+                      )}
+                    </li>
+                  </ul>
+                </div>
               )}
-            </button>
+            </div>
           </div>
         </div>
 

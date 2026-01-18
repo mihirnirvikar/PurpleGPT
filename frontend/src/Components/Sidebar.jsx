@@ -55,7 +55,7 @@ export const Sidebar = () => {
 
   useEffect(() => {
     fetchHistory();
-  }, [reply]);
+  }, [reply, isLoggedIn]);
 
   const handleDelete = async () => {
     try {
