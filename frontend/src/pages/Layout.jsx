@@ -5,7 +5,8 @@ import { AppContext } from "../context/AppContext.jsx";
 import api from "../utils/api.js";
 
 export const Layout = () => {
-  const { inActive, setInActive, guestSessionId ,setGuestSessionId } = useContext(AppContext);
+  const { inActive, setInActive, guestSessionId, setGuestSessionId } =
+    useContext(AppContext);
   const divRef = useRef(null);
 
   useEffect(() => {
@@ -16,21 +17,21 @@ export const Layout = () => {
     }
   }, [inActive]);
 
-  const handleGuestUser = async() => {
-    if(guestSessionId){
-      return
+  const handleGuestUser = async () => {
+    if (guestSessionId) {
+      return;
     }
 
     try {
-      const {data} = await api.get("/api/guest/create-guest-session");
+      const { data } = await api.get("/api/guest/create-guest-session");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     handleGuestUser();
-  }, [])
+  }, []);
 
   return (
     <>
