@@ -68,10 +68,10 @@ export const ResetPassword = () => {
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
-    
+
     const finalOtp = otp.join("");
 
-    if(finalOtp.length !== 6){
+    if (finalOtp.length !== 6) {
       alert("Please enter a valid otp");
       return;
     }
@@ -93,11 +93,11 @@ export const ResetPassword = () => {
   };
 
   const sendEmailOtpHandler = async () => {
-    if(!email) {
+    if (!email) {
       toast.error("Email is required");
       return;
     }
-    
+
     try {
       const { data } = await api.post("/api/auth/send-reset-otp", { email });
       setOtpForm(true);
@@ -110,7 +110,19 @@ export const ResetPassword = () => {
 
   return (
     <>
-      <div className="flex h-screen  items-center justify-center dark:bg-[#212121] dark:text-white bg-white text-[#4f4f4f]">
+      <div className="flex h-screen items-center justify-center dark:bg-[#212121] dark:text-white bg-white text-[#4f4f4f]">
+
+        <div className="absolute top-25 left-35 z-10 flex justify-center items-center text-sm">
+          <button
+            className="w-12 h-12 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white font-semibold text-md dark:text-[#D9D9D9] cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white text-xl"
+            onClick={() => {
+              navigate("/c/login");
+            }}
+          >
+            <i className="fa-solid fa-arrow-left"></i>
+          </button>
+        </div>
+
         <div className="flex justify-center items-center flex-col gap-6 w-5/12">
           <img className="w-52 h-52" src="/favicon.svg" alt="PurpleGPT Logo" />
           <p className="text-5xl font-semibold">PurpleGPT 3.0</p>
@@ -148,7 +160,9 @@ export const ResetPassword = () => {
 
                 <div>
                   <div className="w-full flex justify-center items-center mt-12 gap-1">
-                    <div className={`${otpForm === true ? "w-120" : "w-100"} border dark:border-[#D9D9D9] border-[#4f4f4f] rounded-lg dark:outline-[#D9D9D9] outline-[#4f4f4f] focus-within:outline-2 hover:outline-2 flex justify-center items-center text-lg`}>
+                    <div
+                      className={`${otpForm === true ? "w-120" : "w-100"} border dark:border-[#D9D9D9] border-[#4f4f4f] rounded-lg dark:outline-[#D9D9D9] outline-[#4f4f4f] focus-within:outline-2 hover:outline-2 flex justify-center items-center text-lg`}
+                    >
                       <i className="fa-regular fa-envelope ml-4 mr-4"></i>
                       <input
                         name="email"
@@ -170,22 +184,6 @@ export const ResetPassword = () => {
                       </button>
                     )}
                   </div>
-
-                  {!otpForm && (
-                    <div className="flex justify-center items-center mt-12 text-sm">
-                      <button
-                        className="w-40 h-13 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white font-semibold text-md dark:text-[#D9D9D9] cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white"
-                        onClick={() => {
-                          navigate("/c/login");
-                        }}
-                      >
-                        <p>
-                          Back to login{" "}
-                          <i className="fa-solid fa-arrow-right"></i>
-                        </p>
-                      </button>
-                    </div>
-                  )}
                 </div>
               </div>
 
@@ -254,7 +252,7 @@ export const ResetPassword = () => {
                       className="cursor-pointer"
                       onClick={() => {
                         setConfirmEyeIcon(
-                          confirmEyeIcon === "open" ? "close" : "open"
+                          confirmEyeIcon === "open" ? "close" : "open",
                         );
                       }}
                     >
@@ -279,10 +277,7 @@ export const ResetPassword = () => {
                   </div>
 
                   <div>
-                    <button
-                      className="w-120 h-13 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white dark:text-[#D9D9D9] mt-12 cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white"
-                      
-                    >
+                    <button className="w-120 h-13 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white dark:text-[#D9D9D9] mt-12 cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white">
                       <p className="text-lg font-semibold">Submit</p>
                     </button>
                   </div>

@@ -13,7 +13,8 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  const { accessToken, saveAccessToken, setIsLoggedIn } = useContext(AppContext);
+  const { accessToken, saveAccessToken, setIsLoggedIn } =
+    useContext(AppContext);
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
@@ -49,7 +50,18 @@ export const Login = () => {
 
   return (
     <>
-      <div className="flex h-screen  items-center justify-center dark:bg-[#212121] dark:text-white bg-white text-[#4f4f4f]">
+      <div className="flex h-screen  items-center justify-center dark:bg-[#212121] dark:text-white bg-white text-[#4f4f4f] relative">
+        <div className="absolute top-25 left-35 z-10 flex justify-center items-center text-sm">
+          <button
+            className="w-12 h-12 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white font-semibold text-md dark:text-[#D9D9D9] cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white text-xl"
+            onClick={() => {
+              navigate("/c");
+            }}
+          >
+            <i className="fa-solid fa-arrow-left"></i>
+          </button>
+        </div>
+
         <div className="flex justify-center items-center flex-col gap-6 w-5/12">
           <img className="w-52 h-52" src="/favicon.svg" alt="PurpleGPT Logo" />
           <p className="text-5xl font-semibold">PurpleGPT 3.0</p>
