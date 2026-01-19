@@ -6,14 +6,14 @@ import { AppContext } from "../context/AppContext.jsx";
 import { toast } from "react-toastify";
 
 export const Login = () => {
-  const [formType, setFormType] = useState("signin");
+  // const [formType, setFormType] = useState("signin");
   const [eyeIcon, setEyeIcon] = useState("open");
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  const { accessToken, saveAccessToken, setIsLoggedIn } =
+  const { accessToken, saveAccessToken, setIsLoggedIn, formType, setFormType } =
     useContext(AppContext);
 
   const formSubmitHandler = async (e) => {

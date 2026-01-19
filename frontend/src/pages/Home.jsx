@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext.jsx";
 
 export const Home = () => {
   const navigate = useNavigate();
+
+  const { setFormType } = useContext(AppContext);
 
   return (
     <div className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-[#1f1f1f]">
@@ -13,14 +17,20 @@ export const Home = () => {
 
       <div className="absolute z-100 top-8 right-10 flex items-center gap-4">
         <button
-          onClick={() => navigate("/c/login")}
+          onClick={() => {
+            setFormType("signin")
+            navigate("/c/login")
+          } }
           className="text-gray-300 hover:text-white transition cursor-pointer hover:underline"
         >
           Login
         </button>
 
         <button
-          onClick={() => navigate("/c/login")}
+          onClick={() => {
+            setFormType("signup")
+            navigate("/c/login")
+          } }
           className="px-5 py-2 rounded-full font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 shadow-md shadow-purple-500/30 hover:scale-105 transition cursor-pointer"
         >
           Sign Up

@@ -19,6 +19,9 @@ export const AppContextProvider = (props) => {
   });
   const [userData, setUserData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") || false)
+
+  // login and signup formtype
+  const [formType, setFormType] = useState("signin");
   
 
   const saveAccessToken = (token) => {
@@ -87,6 +90,8 @@ export const AppContextProvider = (props) => {
     setUserData,
     isLoggedIn,
     setIsLoggedIn,
+    formType,
+    setFormType
   };
 
   return (
