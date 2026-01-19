@@ -21,19 +21,19 @@ export const Sidebar = () => {
     threadId,
     setThreadId,
     setPrevChats,
+    prevChatsThreadId,
     setPrevChatsThreadId,
     activeThreadId,
     setActiveThreadId,
-    isLoggedIn
+    isLoggedIn,
   } = useContext(AppContext);
 
   const [renameThreadId, setRenameThreadId] = useState(null);
   const [inputValue, setInputValue] = useState("");
 
   const fetchHistory = async () => {
-    
-    if(!isLoggedIn) {
-      return
+    if (!isLoggedIn) {
+      return;
     }
 
     try {
@@ -86,7 +86,7 @@ export const Sidebar = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       fetchHistory();
       setRenameThreadId(null);
@@ -101,8 +101,16 @@ export const Sidebar = () => {
 
   return (
     <>
-      <div className={`p-2 w-full`}>
-        
+      <div
+        className={`p-2 w-full h-screen`}
+        onClick={(e) => {
+          if (inActive) {
+            e.stopPropagation();
+            localStorage.setItem("inActive", !inActive);
+            setInActive(!inActive);
+          }
+        }}
+      >
         <div
           className={`flex items-center ${
             inActive ? "ml-2 pt-1 " : "justify-between pt-1"
@@ -146,11 +154,14 @@ export const Sidebar = () => {
             setInActive(false);
             setThreadId(uuidv4());
             setPrevChats([]);
+            setPrevChatsThreadId(null);
           }}
         >
-          <button className="flex items-center cursor-pointer">
+          <button
+            className={`flex items-center cursor-pointer ${inActive ? "" : "gap-2"}`}
+          >
             <i className="fa-solid fa-pen-to-square"></i>
-            &nbsp; {inActive ? "" : "New chat"}
+            <p>{inActive ? "" : `New chat`}</p>
           </button>
         </div>
 
@@ -174,14 +185,18 @@ export const Sidebar = () => {
 
         {yourChats && (
           <div
-            className={`overflow-y-auto cursor-pointer no-scrollbar scroll-smooth h-[70vh] mb-2   ${
+            className={`overflow-y-auto no-scrollbar scroll-smooth h-[78%] mb-2 ${
               inActive ? "hidden" : ""
             }`}
           >
             {filterData?.map((chat, index) => {
               return (
                 <div
-                  className={`w-full flex items-center p-2 text-black hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg relative group `}
+                  className={`w-full flex items-center p-2 text-black rounded-lg relative group ${
+                    chat.threadId === prevChatsThreadId
+                      ? "bg-[#E5E7EB] dark:bg-[#3A3A3A]"
+                      : "hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A]"
+                  } dark:text-white mb-1`}
                   key={index}
                   onClick={() => {
                     setNewChat(false);
@@ -210,13 +225,13 @@ export const Sidebar = () => {
                     <div className="flex items-center w-full">
                       <p className="truncate w-[90%]">{chat.title}</p>
                       <button
-                        className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        className={`cursor-pointer opacity-0 ${chat.threadId === prevChatsThreadId ? "opacity-100" : ""} group-hover:opacity-100 transition-opacity duration-200`}
                         onClick={(e) => {
                           e.stopPropagation();
                           setActiveThreadId(
                             activeThreadId === chat.threadId
                               ? null
-                              : chat.threadId
+                              : chat.threadId,
                           );
                         }}
                       >
@@ -230,20 +245,29 @@ export const Sidebar = () => {
                       <ul className="w-full">
                         <li
                           className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
-                          onClick={() => {
+                          onClick={(e) => {
                             handleRename(chat);
+                            e.stopPropagation();
                           }}
                         >
                           <i className="fa-solid fa-pencil"></i> &nbsp; Rename
                         </li>
                         <li
                           className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
-                          onClick={handleDelete}
+                          onClick={(e) => {
+                            handleDelete;
+                            e.stopPropagation();
+                          }}
                         >
                           <i className="fa-regular fa-trash-can"></i> &nbsp;
                           Delete
                         </li>
-                        <li className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer">
+                        <li
+                          className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
                           <i className="fa-solid fa-box-archive"></i>
                           &nbsp; Archive
                         </li>
@@ -256,7 +280,7 @@ export const Sidebar = () => {
           </div>
         )}
 
-        <div
+        {/* <div
           className={`flex w-48 items-center gap-3 mt-4 cursor-pointer fixed bottom-3 z-10 ${
             inActive ? "hidden" : ""
           }`}
@@ -269,7 +293,7 @@ export const Sidebar = () => {
           <div className="flex text-xl font-bold text-black dark:text-white">
             <h1>PurpleGPT</h1>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

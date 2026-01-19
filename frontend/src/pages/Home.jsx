@@ -31,7 +31,7 @@ export const Home = () => {
             setFormType("signup")
             navigate("/c/login")
           } }
-          className="px-5 py-2 rounded-full font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 shadow-md shadow-purple-500/30 hover:scale-105 transition cursor-pointer"
+          className="px-5 py-2 rounded-full font-semibold text-white bg-linear-to-r from-purple-500 to-pink-500 shadow-md shadow-purple-500/30 hover:scale-105 transition cursor-pointer"
         >
           Sign Up
         </button>
@@ -64,7 +64,7 @@ export const Home = () => {
 
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
           Welcome to{" "}
-          <span className="bg-gradient-to-r from-purple-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-purple-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
             PurpleGPT
           </span>
         </h1>
@@ -76,7 +76,7 @@ export const Home = () => {
         <button
           onClick={() => navigate("/c")}
           className="
-            px-8 py-3 text-lg font-semibold text-white rounded-full bg-gradient-to-r from-purple-500 via-purple-600 to-pink-500
+            px-8 py-3 text-lg font-semibold text-white rounded-full bg-linear-to-r from-purple-500 via-purple-600 to-pink-500
             shadow-lg shadow-purple-500/30
             focus:outline-none focus:ring-2 focus:ring-purple-400 group cursor-pointer"
         >

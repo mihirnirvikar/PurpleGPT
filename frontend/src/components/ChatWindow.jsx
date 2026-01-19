@@ -103,6 +103,8 @@ export const ChatWindow = () => {
       localStorage.removeItem("isLoggedIn");
       setIsLoggedIn(false);
       setUserData(null);
+      setNewChat(true);
+      setPrevChats([]);
       toast.success(data.message);
       navigate("/c/login");
     } catch (error) {
