@@ -6,8 +6,8 @@ import { AppContext } from "../context/AppContext.jsx";
 import { toast } from "react-toastify";
 
 export const ResetPassword = () => {
-  const [eyeIcon, setEyeIcon] = useState("close");
-  const [confirmEyeIcon, setConfirmEyeIcon] = useState("close");
+  const [eyeIcon, setEyeIcon] = useState("open");
+  const [confirmEyeIcon, setConfirmEyeIcon] = useState("open");
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -215,18 +215,18 @@ export const ResetPassword = () => {
                     <input
                       name="password"
                       className="flex-1 py-3 outline-none"
-                      type={`${eyeIcon === "open" ? "text" : "password"}`}
+                      type={`${eyeIcon === "open" ? "password" : "text"}`}
                       placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
                     />
                     <div
-                      className="cursor-pointer"
-                      onClick={() => {
-                        setEyeIcon(eyeIcon === "open" ? "close" : "open");
-                      }}
-                    >
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setEyeIcon(eyeIcon === "open" ? "close" : "open");
+                    }}
+                  >
                       {eyeIcon === "open" ? (
                         <i className="fa-solid fa-eye mr-4 ml-4"></i>
                       ) : (
@@ -241,7 +241,7 @@ export const ResetPassword = () => {
                       name="confirmPassword"
                       className="flex-1 py-3 outline-none"
                       type={`${
-                        confirmEyeIcon === "open" ? "text" : "password"
+                        confirmEyeIcon === "open" ? "password" : "text"
                       }`}
                       placeholder="Confirm Password"
                       value={confirmPassword}

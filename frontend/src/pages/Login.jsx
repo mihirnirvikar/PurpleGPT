@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 export const Login = () => {
   const [formType, setFormType] = useState("signin");
-  const [eyeIcon, setEyeIcon] = useState("close");
+  const [eyeIcon, setEyeIcon] = useState("open");
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -139,7 +139,7 @@ export const Login = () => {
                     id="password"
                     name="password"
                     className="flex-1 py-3 outline-none"
-                    type={`${eyeIcon === "open" ? "text" : "password"}`}
+                    type={`${eyeIcon === "open" ? "password" : "text"}`}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
