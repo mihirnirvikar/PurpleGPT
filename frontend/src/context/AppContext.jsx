@@ -11,45 +11,48 @@ export const AppContextProvider = (props) => {
   const [newChat, setNewChat] = useState(true);
   const [threadId, setThreadId] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
-  const [inActive, setInActive] = useState(false);
+  const [inActive, setInActive] = useState(() => {
+    return JSON.parse(localStorage.getItem("inActive")) || false;
+  });
   const [prevChatsThreadId, setPrevChatsThreadId] = useState(null);
   const [activeThreadId, setActiveThreadId] = useState(null);
   const [accessToken, setAccessToken] = useState(() => {
-    return localStorage.getItem("accessToken") || null
+    return localStorage.getItem("accessToken") || null;
   });
   const [userData, setUserData] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") || false)
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return JSON.parse(localStorage.getItem("isLoggedIn")) || false;
+  });
 
   // login and signup formtype
   const [formType, setFormType] = useState("signin");
-  
 
   const saveAccessToken = (token) => {
     setAccessToken(token);
-    if(token) {
+    if (token) {
       localStorage.setItem("accessToken", token);
-    }else{
+    } else {
       localStorage.removeItem("accessToken");
     }
-  }
+  };
 
-  const fetchUserData = async() => {
-    if(!isLoggedIn) {
-      return
+  const fetchUserData = async () => {
+    if (!isLoggedIn) {
+      return;
     }
 
-    const token = localStorage.getItem("accessToken")
+    const token = localStorage.getItem("accessToken");
 
-    if(!token){
-      setIsLoggedIn(false)
-      setUserData(null)
-      return 
+    if (!token) {
+      setIsLoggedIn(false);
+      setUserData(null);
+      return;
     }
 
     try {
-      const {data} = await api.get("/api/user/get-user-info");
-      setUserData(data.data)
-      setIsLoggedIn(true)
+      const { data } = await api.get("/api/user/get-user-info");
+      setUserData(data.data);
+      setIsLoggedIn(true);
       // console.log(data)
     } catch (error) {
       console.log(error);
@@ -58,11 +61,11 @@ export const AppContextProvider = (props) => {
       setIsLoggedIn(false);
       setUserData(null);
     }
-  }
+  };
 
   useEffect(() => {
     fetchUserData();
-  }, [accessToken])
+  }, [accessToken]);
 
   const values = {
     prompt,
@@ -91,7 +94,7 @@ export const AppContextProvider = (props) => {
     isLoggedIn,
     setIsLoggedIn,
     formType,
-    setFormType
+    setFormType,
   };
 
   return (

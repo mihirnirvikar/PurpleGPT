@@ -123,6 +123,7 @@ export const Sidebar = () => {
                 : ""
             }`}
             onClick={() => {
+              localStorage.setItem("inActive", !inActive);
               setInActive(!inActive);
               setActiveThreadId(null);
             }}
