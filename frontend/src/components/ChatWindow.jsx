@@ -26,7 +26,8 @@ export const ChatWindow = () => {
     userData,
     setUserData,
     isLoggedIn,
-    setIsLoggedIn
+    setIsLoggedIn,
+    setFormType,
   } = useContext(AppContext);
 
   const [active, setActive] = useState(false);
@@ -260,6 +261,7 @@ export const ChatWindow = () => {
                       ) : (
                         <div onClick={() => {
                           navigate("/c/login")
+                          setFormType("signin")
                         }}>
                           <i className="fa-solid fa-arrow-right-to-bracket"></i>{" "}
                           &nbsp;login

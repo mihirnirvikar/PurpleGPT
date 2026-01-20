@@ -102,7 +102,7 @@ export const Sidebar = () => {
   return (
     <>
       <div
-        className={`p-2 w-full h-screen`}
+        className={`p-2 w-full h-screen ${inActive ? "cursor-w-resize" : ""}`}
         onClick={(e) => {
           if (inActive) {
             e.stopPropagation();
@@ -125,7 +125,7 @@ export const Sidebar = () => {
           </div>
 
           <button
-            className={`flex w-9 h-9 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg  text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A] cursor-w-resize ${
+            className={`flex w-10 h-9 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A] cursor-w-resize ${
               inActive
                 ? "hidden group-hover:block pl-1.5 dark:bg-[#212121]"
                 : ""
