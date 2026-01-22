@@ -64,6 +64,7 @@ export const ChatWindow = () => {
         // console.log(data.resp);
         setReply(data.resp);
         setNewChat(false);
+        console.log(data)
       } else {
         const { data } = await guestApi.post("/api/guest/guest-chat", {
           threadId: currentThreadId,
@@ -151,7 +152,7 @@ export const ChatWindow = () => {
               <div className="z-990 absolute top-10 left-0 w-44 bg-[#F9F9F9] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
                 <ul className="w-full">
                   <li
-                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                     onClick={() => {
                       localStorage.setItem("model", "1.0");
                       setModel("1.0");
@@ -161,7 +162,7 @@ export const ChatWindow = () => {
                     PurpleGPT 1.0
                   </li>
                   <li
-                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                     onClick={() => {
                       localStorage.setItem("model", "2.0");
                       setModel("2.0");
@@ -171,7 +172,7 @@ export const ChatWindow = () => {
                     PurpleGPT 2.0
                   </li>
                   <li
-                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                     onClick={() => {
                       localStorage.setItem("model", "3.0");
                       setModel("3.0");
@@ -208,7 +209,7 @@ export const ChatWindow = () => {
                 {userData?.name ? (
                   userData.name.charAt(0).toUpperCase()
                 ) : (
-                  <i className="fa-regular fa-user"></i>
+                  <i className="fa-solid fa-user"></i>
                 )}
               </button>
 
@@ -216,17 +217,17 @@ export const ChatWindow = () => {
                 <div className="z-990 absolute top-12 right-5 w-36 bg-[#F9F9F9] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
                   <ul className="w-full">
                     <li
-                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {
                         localStorage.setItem("model", "1.0");
                         setModel("1.0");
                         setActive(false);
                       }}
                     >
-                      <i className="fa-regular fa-user"></i> &nbsp;Profile
+                      <i className="fa-solid fa-user"></i> &nbsp;Profile
                     </li>
                     <li
-                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {
                         localStorage.setItem("model", "2.0");
                         setModel("2.0");
@@ -236,7 +237,7 @@ export const ChatWindow = () => {
                       <i className="fa-solid fa-gear"></i> &nbsp;Setting
                     </li>
                     <li
-                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {
                         localStorage.setItem("model", "3.0");
                         setModel("3.0");
@@ -247,7 +248,7 @@ export const ChatWindow = () => {
                     </li>
 
                     <li
-                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {
                         localStorage.setItem("model", "3.0");
                         setModel("3.0");

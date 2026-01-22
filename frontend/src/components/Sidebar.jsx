@@ -242,9 +242,9 @@ export const Sidebar = () => {
 
                   {activeThreadId === chat.threadId && (
                     <div className="z-50 absolute top-10 right-0 w-30 bg-[#FFFFFF] dark:bg-[#424242] p-1 rounded-lg dark:text-white]">
-                      <ul className="w-full">
+                      <ul className="w-full ">
                         <li
-                          className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                          className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                           onClick={(e) => {
                             handleRename(chat);
                             e.stopPropagation();
@@ -252,8 +252,19 @@ export const Sidebar = () => {
                         >
                           <i className="fa-solid fa-pencil"></i> &nbsp; Rename
                         </li>
+                        
                         <li
-                          className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
+                          className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          <i className="fa-solid fa-box-archive"></i>
+                          &nbsp; Archive
+                        </li>
+
+                        <li
+                          className="px-2 py-1 rounded hover:bg-[#e32a2a38] text-red-400 dark:hover:bg-[#e32a2a38] cursor-pointer"
                           onClick={(e) => {
                             handleDelete;
                             e.stopPropagation();
@@ -261,15 +272,6 @@ export const Sidebar = () => {
                         >
                           <i className="fa-regular fa-trash-can"></i> &nbsp;
                           Delete
-                        </li>
-                        <li
-                          className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#3A3A3A] cursor-pointer"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        >
-                          <i className="fa-solid fa-box-archive"></i>
-                          &nbsp; Archive
                         </li>
                       </ul>
                     </div>
