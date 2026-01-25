@@ -117,7 +117,7 @@ export const ChatWindow = () => {
   return (
     <>
       <div
-        className="flex flex-col justify-between items-center h-screen px-4 py-2 "
+        className="flex flex-col justify-between items-center min-h-dvh px-4 py-2 "
         onClick={(e) => {
           e.stopPropagation();
           setActiveThreadId(null);
@@ -150,7 +150,7 @@ export const ChatWindow = () => {
               <div className="z-990 absolute top-10 left-0 w-44 bg-[#F9F9F9] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
                 <ul className="w-full">
                   <li
-                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                    className="px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                     onClick={() => {
                       localStorage.setItem("model", "1.0");
                       setModel("1.0");
@@ -160,7 +160,7 @@ export const ChatWindow = () => {
                     PurpleGPT 1.0
                   </li>
                   <li
-                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                    className="px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                     onClick={() => {
                       localStorage.setItem("model", "2.0");
                       setModel("2.0");
@@ -170,7 +170,7 @@ export const ChatWindow = () => {
                     PurpleGPT 2.0
                   </li>
                   <li
-                    className=" px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                    className="px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                     onClick={() => {
                       localStorage.setItem("model", "3.0");
                       setModel("3.0");
@@ -215,7 +215,7 @@ export const ChatWindow = () => {
                 <div className="z-990 absolute top-12 right-5 w-36 bg-[#F9F9F9] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
                   <ul className="w-full">
                     <li
-                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                      className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {
                         localStorage.setItem("model", "1.0");
                         setModel("1.0");
@@ -225,7 +225,7 @@ export const ChatWindow = () => {
                       <i className="fa-solid fa-user"></i> &nbsp;Profile
                     </li>
                     <li
-                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                      className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {
                         localStorage.setItem("model", "2.0");
                         setModel("2.0");
@@ -235,7 +235,7 @@ export const ChatWindow = () => {
                       <i className="fa-solid fa-gear"></i> &nbsp;Setting
                     </li>
                     <li
-                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                      className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {
                         localStorage.setItem("model", "3.0");
                         setModel("3.0");
@@ -246,7 +246,7 @@ export const ChatWindow = () => {
                     </li>
 
                     <li
-                      className=" px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                      className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {
                         localStorage.setItem("model", "3.0");
                         setModel("3.0");
@@ -277,7 +277,7 @@ export const ChatWindow = () => {
         </div>
 
         <div
-          className="chatSection flex-1 overflow-y-auto  no-scrollbar scroll-smooth px-3 py-2 mt-2 w-196 max-w-4xl relative"
+          className="chatSection flex-1 overflow-y-auto no-scrollbar scroll-smooth px-3 py-2 mt-2 w-full max-w-3xl relative"
           onClick={() => {
             setActive(false);
             setActiveThreadId(null);
@@ -292,9 +292,9 @@ export const ChatWindow = () => {
           </div>
         )}
 
-        <div className="inputSection flex flex-col">
+        <div className="inputSection flex flex-col w-full min-w-sm max-w-3xl justify-center items-center">
           <div
-            className="w-160 h-26 px-2 py-2 flex flex-col justify-between rounded-2xl items-center overflow-hidden dark:bg-[#14181E] border border-gray-400 dark:border-gray-600 mb-2 "
+            className="w-full h-26 px-2 py-2 flex flex-col justify-between rounded-2xl items-center overflow-hidden dark:bg-[#14181E] border border-gray-400 dark:border-gray-600 mb-2 "
             onClick={() => {
               inputRef.current.focus();
             }}
@@ -311,7 +311,7 @@ export const ChatWindow = () => {
 
             <div className="w-full flex justify-between items-center  mt-2 ">
               <button
-                className="flex justify-center items-center text-lg dark:text-white w-10 h-10 p-1 rounded-lg  hover:bg-[#E5E7EB] dark:hover:bg-[#454545] cursor-pointer"
+                className="flex justify-center items-center text-lg dark:text-white w-10 h-10 p-1 rounded-lg hover:bg-[#E5E7EB] dark:hover:bg-[#454545] cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                 }}

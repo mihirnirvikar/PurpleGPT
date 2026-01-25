@@ -242,7 +242,7 @@ export const Sidebar = () => {
                   )}
 
                   {activeThreadId === chat.threadId && (
-                    <div className="z-50 absolute top-10 right-0 w-30 bg-[#FFFFFF] dark:bg-[#424242] p-1 rounded-lg dark:text-white]">
+                    <div className="z-50 absolute top-5 right-0 w-30 bg-[#FFFFFF] dark:bg-[#424242] p-1 rounded-lg dark:text-white]">
                       <ul className="w-full ">
                         <li
                           className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"

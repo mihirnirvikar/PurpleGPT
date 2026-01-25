@@ -60,7 +60,7 @@ export const Chat = () => {
   return (
     <>
       {newChat && (
-        <div className="flex justify-center items-center h-full w-full">
+        <div className="flex justify-center items-center h-full max-w-full min-w-sm">
           <div>
             <h1 className="text-black dark:text-white text-2xl text-center mb-2">
               New Chat
@@ -93,7 +93,7 @@ export const Chat = () => {
 
         {prevChats?.length > 0 && (
           <div className="flex justify-start">
-            <div className="bg-gray-200 dark:bg-[#3A3A3A] px-4 py-2 rounded-lg rounded-bl-none max-w-full">
+            <div className="bg-gray-200 dark:bg-[#2B2D31] px-4 py-2 rounded-lg rounded-bl-none max-w-full">
               <ReactMarkDown rehypePlugins={[rehypeHighlight]}>
                 {latestReply !== null
                   ? latestReply
