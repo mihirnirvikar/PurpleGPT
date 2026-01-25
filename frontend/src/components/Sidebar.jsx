@@ -58,6 +58,7 @@ export const Sidebar = () => {
   }, [reply, isLoggedIn]);
 
   const handleDelete = async () => {
+    console.log("Deleting thread:", activeThreadId);
     try {
       const { data } = await api.delete(`/threads/${activeThreadId}`);
       setPrevChats([]);
@@ -266,7 +267,7 @@ export const Sidebar = () => {
                         <li
                           className="px-2 py-1 rounded hover:bg-[#e32a2a38] text-red-400 dark:hover:bg-[#e32a2a38] cursor-pointer"
                           onClick={(e) => {
-                            handleDelete;
+                            handleDelete();
                             e.stopPropagation();
                           }}
                         >

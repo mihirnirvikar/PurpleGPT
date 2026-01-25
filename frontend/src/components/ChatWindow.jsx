@@ -64,7 +64,7 @@ export const ChatWindow = () => {
         // console.log(data.resp);
         setReply(data.resp);
         setNewChat(false);
-        console.log(data)
+        console.log(data);
       } else {
         const { data } = await guestApi.post("/api/guest/guest-chat", {
           threadId: currentThreadId,
@@ -98,9 +98,9 @@ export const ChatWindow = () => {
     setPrompt("");
   }, [reply]);
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     try {
-      const {data} = await api.post("/api/auth/logout")
+      const { data } = await api.post("/api/auth/logout");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("isLoggedIn");
       setIsLoggedIn(false);
@@ -112,9 +112,7 @@ export const ChatWindow = () => {
     } catch (error) {
       toast(error.response?.message);
     }
-  }
-
-  
+  };
 
   return (
     <>
@@ -127,7 +125,7 @@ export const ChatWindow = () => {
           setUserIconActive(false);
         }}
       >
-        <div className="headerSection flex z-10 justify-between items-center w-full sticky top-0 bg-white dark:bg-[#212121] ">
+        <div className="headerSection flex z-10 justify-between items-center w-full sticky top-0 bg-white dark:bg-[#14181E] ">
           <div className="flex items-center relative">
             <h1
               className="block w-full px-5 py-1 rounded-lg text-lg text-gray-800 hover:bg-gray-200 cursor-pointer
@@ -260,10 +258,12 @@ export const ChatWindow = () => {
                           <i className="fas fa-sign-out"></i> &nbsp;logout
                         </div>
                       ) : (
-                        <div onClick={() => {
-                          navigate("/c/login")
-                          setFormType("signin")
-                        }}>
+                        <div
+                          onClick={() => {
+                            navigate("/c/login");
+                            setFormType("signin");
+                          }}
+                        >
                           <i className="fa-solid fa-arrow-right-to-bracket"></i>{" "}
                           &nbsp;login
                         </div>
@@ -292,38 +292,40 @@ export const ChatWindow = () => {
           </div>
         )}
 
-        <div className="inputSection flex flex-col  ">
+        <div className="inputSection flex flex-col">
           <div
-            className="w-190 h-14 flex gap-3 justify-between rounded-full items-center overflow-hidden dark:bg-[#303030] border border-gray-400 dark:border-none mb-2 "
+            className="w-160 h-26 px-2 py-2 flex flex-col justify-between rounded-2xl items-center overflow-hidden dark:bg-[#14181E] border border-gray-400 dark:border-gray-600 mb-2 "
             onClick={() => {
               inputRef.current.focus();
             }}
           >
-            <button
-              className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1 ml-1 rounded-full  hover:bg-[#E5E7EB] dark:hover:bg-[#454545] cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              <i className="fa-solid fa-plus"></i>
-            </button>
-            <input
-              className="w-166 outline-none dark:bg-[#303030] text-sm dark:text-white py-4"
-              type="text"
+            <textarea
+              className="w-full flex-1 outline-none dark:bg-[#14181E] text-sm dark:text-white px-2 py-2 resize-none"
               ref={inputRef}
+              rows="1"
               placeholder="Ask anything..."
               value={prompt}
-              onChange={(e) => {
-                setPrompt(e.target.value);
-              }}
+              onChange={(e) => setPrompt(e.target.value)}
               onKeyDown={handleKeyDown}
             />
-            <button
-              className="flex justify-center items-center text-xl dark:text-white w-12 h-12 p-1.5 mr-1 rounded-full  hover:bg-[#E5E7EB]  dark:hover:bg-[#454545] cursor-pointer"
-              onClick={fetchResponse}
-            >
-              <i className="fa-solid fa-paper-plane text-[#AE4AFF]"></i>
-            </button>
+
+            <div className="w-full flex justify-between items-center  mt-2 ">
+              <button
+                className="flex justify-center items-center text-lg dark:text-white w-10 h-10 p-1 rounded-lg  hover:bg-[#E5E7EB] dark:hover:bg-[#454545] cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <i className="fa-solid fa-plus"></i>
+              </button>
+
+              <button
+                className="flex justify-center items-center text-xl dark:text-white w-10 h-10 p-auto rounded-lg  hover:bg-[#E5E7EB]  dark:hover:bg-[#454545] cursor-pointer"
+                onClick={fetchResponse}
+              >
+                <i className="fa-solid fa-paper-plane text-[#AE4AFF]"></i>
+              </button>
+            </div>
           </div>
           <div className="flex justify-center items-center text-xs text-black dark:text-white">
             <p>

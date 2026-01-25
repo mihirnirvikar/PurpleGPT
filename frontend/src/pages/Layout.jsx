@@ -39,13 +39,13 @@ export const Layout = () => {
         <div
           className={`${
             inActive
-              ? "w-18 group dark:bg-[#212121] border-r dark:border-[#3A3A3A] border-[#D9D9D9] transition-all ease-in-out duration-300"
+              ? "w-18 group dark:bg-[#2B2D31] border-r dark:border-[#3A3A3A] border-[#D9D9D9] transition-all ease-in-out duration-300"
               : "w-64"
-          } dark:bg-[#181818] bg-[#F9F9F9] transition-all ease-in-out duration-300`}
+          } dark:bg-[#14181A] bg-[#F9F9F9] transition-all ease-in-out duration-300`}
         >
           <Sidebar />
         </div>
-        <div className="flex-1 dark:bg-[#212121] bg-[#FFFFFF]">
+        <div className="flex-1 dark:bg-[#14181E] bg-[#FFFFFF]">
           <ChatWindow />
         </div>
       </div>

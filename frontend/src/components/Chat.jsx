@@ -82,7 +82,7 @@ export const Chat = () => {
             </div>
           ) : (
             <div className="flex justify-start" key={index}>
-              <div className="bg-gray-200 dark:bg-[#3A3A3A] px-4 py-2 rounded-lg rounded-bl-none max-w-full">
+              <div className="bg-gray-200 dark:bg-[#2B2D31] px-4 py-2 rounded-lg rounded-bl-none max-w-full">
                 <ReactMarkDown rehypePlugins={[rehypeHighlight]}>
                   {chat.content}
                 </ReactMarkDown>
