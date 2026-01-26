@@ -35,14 +35,23 @@ export const ChatWindow = () => {
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const [userIconActive, setUserIconActive] = useState(false);
+  const [promptHeight, setPromptHeight] = useState(false);
 
   const BtnHandler = () => {
     toggleTheme();
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter" && prompt !== "") {
-      fetchResponse();
+    if (e.key === "Enter" && e.shiftKey) {
+      return;
+    }
+
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (prompt.trim() !== "") {
+        fetchResponse();
+        setPromptHeight(false);
+      }
     }
   };
 
@@ -117,7 +126,7 @@ export const ChatWindow = () => {
   return (
     <>
       <div
-        className="flex flex-col justify-between items-center min-h-dvh px-4 py-2 "
+        className="flex flex-col h-screen justify-between items-center min-h-dvh px-4 py-2 relative"
         onClick={(e) => {
           e.stopPropagation();
           setActiveThreadId(null);
@@ -198,7 +207,7 @@ export const ChatWindow = () => {
 
             <div className="flex items-center justify-center">
               <button
-                className="flex items-center justify-center w-10 h-10 p-1.5 text-2xl font-semibold rounded-full bg-[#C269E4] hover:bg-[#ac5ecb] dark:hover:bg-[#ad50d2] text-white mr-4 cursor-pointer "
+                className="flex items-center justify-center w-10 h-10 p-1.5 text-2xl font-semibold rounded-full bg-[#C269E4] hover:bg-[#ac5ecb] dark:hover:bg-[#ad50d2] text-white mr-2 cursor-pointer "
                 onClick={(e) => {
                   e.stopPropagation();
                   setUserIconActive(!userIconActive);
@@ -277,7 +286,7 @@ export const ChatWindow = () => {
         </div>
 
         <div
-          className="chatSection flex-1 overflow-y-auto no-scrollbar scroll-smooth px-3 py-2 mt-2 w-full max-w-3xl relative"
+          className="chatSection flex-1 overflow-y-auto no-scrollbar scroll-smooth px-3 py-2 mt-2 w-full max-w-3xl relative z-0"
           onClick={() => {
             setActive(false);
             setActiveThreadId(null);
@@ -292,42 +301,63 @@ export const ChatWindow = () => {
           </div>
         )}
 
-        <div className="inputSection flex flex-col w-full min-w-sm max-w-3xl justify-center items-center">
-          <div
-            className="w-full h-26 px-2 py-2 flex flex-col justify-between rounded-2xl items-center overflow-hidden dark:bg-[#14181E] border border-gray-400 dark:border-gray-600 mb-2 "
-            onClick={() => {
-              inputRef.current.focus();
-            }}
-          >
-            <textarea
-              className="w-full flex-1 outline-none dark:bg-[#14181E] text-sm dark:text-white px-2 py-2 resize-none"
-              ref={inputRef}
-              rows="1"
-              placeholder="Ask anything..."
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-
-            <div className="w-full flex justify-between items-center  mt-2 ">
-              <button
-                className="flex justify-center items-center text-lg dark:text-white w-10 h-10 p-1 rounded-lg hover:bg-[#E5E7EB] dark:hover:bg-[#454545] cursor-pointer"
-                onClick={(e) => {
+        <div className="inputSection flex flex-col w-full min-w-0 max-w-3xl justify-center items-center">
+          <div className="w-full rounded-2xl p-1 bg-linear-to-r from-purple-500 to-pink-500">
+            <div
+              className={`w-full ${promptHeight ? "h-52" : "h-24"} px-2 py-1.5 flex flex-col justify-between items-center overflow-hidden dark:bg-[#14181E] bg-white rounded-xl cursor-text duration-300`}
+              onClick={() => {
+                inputRef.current.focus();
+              }}
+            >
+              <textarea
+                className="w-full outline-none flex-1 dark:bg-[#14181E] text-sm dark:text-white px-2 py-2 overflow-y-auto rounded-xl no-scrollbar scroll-smooth resize-none placeholder-gray-500 dark:placeholder-gray-400
+              focus:placeholder-gray-400 dark:focus:placeholder-gray-500"
+                ref={inputRef}
+                placeholder="Ask anything..."
+                value={prompt}
+                onChange={(e) => {
                   e.stopPropagation();
-                }}
-              >
-                <i className="fa-solid fa-plus"></i>
-              </button>
 
-              <button
-                className="flex justify-center items-center text-xl dark:text-white w-10 h-10 p-auto rounded-lg  hover:bg-[#E5E7EB]  dark:hover:bg-[#454545] cursor-pointer"
-                onClick={fetchResponse}
-              >
-                <i className="fa-solid fa-paper-plane text-[#AE4AFF]"></i>
-              </button>
+                  let value = e.target.value;
+
+                  // Limit to 1000 characters
+                  if (value.length > 1000) {
+                    value = value.slice(0, 1000);
+                  }
+
+                  const lines = value.split("\n");
+
+                  // Max 20 lines
+                  if (value.split("\n").length > 20) {
+                    value = lines.slice(0, 20).join("\n");
+                  }
+
+                  setPrompt(value);
+                  setPromptHeight(lines.length >= 3 || value.length > 200);
+                }}
+                onKeyDown={handleKeyDown}
+              />
+
+              <div className="w-full flex justify-between items-center mt-1">
+                <button
+                  className="flex justify-center items-center text-lg dark:text-gray-400 w-10 h-10 ml-0.5 pt-0.5 rounded-lg hover:bg-[#E5E7EB] dark:hover:bg-[#45454563] cursor-pointer "
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <i className="fa-solid fa-plus"></i>
+                </button>
+
+                <button
+                  className="flex justify-center items-center text-xl dark:text-white w-10 h-10 pt-0.5 mr-0.5 rounded-lg hover:bg-[#E5E7EB] dark:hover:bg-[#45454563] cursor-pointer"
+                  onClick={fetchResponse}
+                >
+                  <i className="fa-solid fa-paper-plane text-purple-500"></i>
+                </button>
+              </div>
             </div>
           </div>
-          <div className="flex justify-center items-center text-xs text-black dark:text-white">
+          <div className="flex min-w-full justify-center items-center text-xs text-black dark:text-white mt-2">
             <p>
               PurpleGPT can make mistakes. Check important info. See Cookie
               Preferences.

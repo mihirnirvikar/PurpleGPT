@@ -103,7 +103,7 @@ export const Sidebar = () => {
   return (
     <>
       <div
-        className={`p-2 w-full h-screen ${inActive ? "cursor-w-resize" : ""}`}
+        className={`p-2 h-screen ${inActive ? "cursor-w-resize" : ""}`}
         onClick={(e) => {
           if (inActive) {
             e.stopPropagation();
@@ -114,21 +114,21 @@ export const Sidebar = () => {
       >
         <div
           className={`flex items-center ${
-            inActive ? "ml-2 pt-1 " : "justify-between pt-1"
+            inActive ? "pt-1 " : "justify-between pt-1"
           } mb-4`}
         >
           <div
-            className={`flex w-10 h-10 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A] cursor-pointer ${
-              inActive ? "group-hover:hidden dark:bg-[#212121]" : ""
+            className={`flex w-10 h-10 text-xl justify-center items-center bg-gray-200 px-1 rounded-lg text-bg-gray-800 dark:bg-[#181818] hover:bg-gray-300 dark:hover:bg-[#3A3A3A] cursor-pointer ${
+              inActive ? " group-hover:hidden dark:bg-[#212121]" : ""
             }`}
           >
             <img src="favicon.svg" alt="Logo Image" />
           </div>
 
           <button
-            className={`flex w-10 h-9 text-xl justify-center items-center bg-gray-200 mr-2 rounded-lg text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A] cursor-w-resize ${
+            className={`flex w-10 h-10 text-xl justify-center items-center bg-gray-200 px-2 rounded-lg text-bg-gray-800 hover:bg-gray-300 dark:bg-[#181818]  dark:hover:bg-[#3A3A3A] cursor-w-resize ${
               inActive
-                ? "hidden group-hover:block pl-1.5 dark:bg-[#212121]"
+                ? " hidden group-hover:block  dark:bg-[#212121]"
                 : ""
             }`}
             onClick={() => {
@@ -146,7 +146,7 @@ export const Sidebar = () => {
         </div>
 
         <div
-          className={`w-full flex items-center justify-center cursor-pointer p-2 text-black  hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2 ${
+          className={`w-full h-10 flex items-center justify-center cursor-pointer p-2 text-black  hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A] dark:text-white rounded-lg mb-2 ${
             inActive ? "w-fit" : "block"
           }`}
           onClick={() => {

@@ -60,7 +60,7 @@ export const Chat = () => {
   return (
     <>
       {newChat && (
-        <div className="flex justify-center items-center h-full max-w-full min-w-sm">
+        <div className="flex justify-center items-center h-full max-w-full min-w-0">
           <div>
             <h1 className="text-black dark:text-white text-2xl text-center mb-2">
               New Chat
