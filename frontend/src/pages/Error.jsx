@@ -22,11 +22,13 @@ export const Error = () => {
 
   return (
     <>
-      <div className="flex h-screen  items-center justify-center dark:bg-[#212121] dark:text-white bg-white text-black ">
+      <div className="flex h-screen  items-center justify-center dark:bg-[#14181E] dark:text-white bg-white text-black ">
         <div className="flex flex-col w-100">
           <div className="flex items-center justify-center">
             <img className="w-20 h-20" src="/favicon.svg" alt="Logo Image" />
-            <h1 className="text-5xl ml-4  font-semibold bg-gradient-to-r from-purple-400 via-purple-500 to-pink-500 bg-clip-text text-transparent ">PurpleGPT</h1>
+            <h1 className="text-5xl ml-4  font-semibold bg-gradient-to-r from-purple-400 via-purple-500 to-pink-500 bg-clip-text text-transparent ">
+              PurpleGPT
+            </h1>
           </div>
           <div className="px-2 mt-4 ">
             <h1 className="text-3xl mt-2 flex justify-center items-center">
@@ -39,17 +41,16 @@ export const Error = () => {
           </div>
 
           <div className="flex items-center justify-between mt-6 px-2 cursor-pointer ">
-            <button className="bg-linear-to-r from-[#8E2DE2] to-[#5012cc] text-white px-4 py-2 rounded-full group transition-all ease-in-out duration-300 cursor-pointer" onClick={() => {
-                  navigate("/c");
-                }}>
+            <button
+              className="bg-linear-to-r from-[#8E2DE2] to-[#5012cc] text-white px-4 py-2 rounded-full group transition-all ease-in-out duration-300 cursor-pointer"
+              onClick={() => {
+                navigate("/c");
+              }}
+            >
               Return{" "}
-              <i
-                className="fa-solid fa-arrow-right text-sm group-hover:px-1.5"
-              ></i>
+              <i className="fa-solid fa-arrow-right text-sm group-hover:px-1.5"></i>
             </button>
-            <p className="mr-4">
-              Redirecting in {count}s
-            </p>
+            <p className="mr-4">Redirecting in {count}s</p>
           </div>
         </div>
       </div>

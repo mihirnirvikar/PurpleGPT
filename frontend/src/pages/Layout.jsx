@@ -62,7 +62,7 @@ export const Layout = () => {
             inActive
               ? "w-14 group dark:bg-[#2B2D31] border-r dark:border-[#3A3A3A] border-[#D9D9D9] transition-all ease-in-out duration-300"
               : `w-32 sm:w-32 md:w-44 lg:w-52 xl:w-64`
-          } dark:bg-[#14181A] bg-[#F9F9F9] transition-all ease-in-out duration-300`}
+          } dark:bg-[#14181A] bg-[#F9F9F9] transition-all ease-in-out duration-300 border-r dark:border-[#3A3A3A] border-[#E5E5E5] `}
         >
           <Sidebar />
         </div>

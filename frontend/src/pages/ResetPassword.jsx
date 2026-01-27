@@ -110,8 +110,7 @@ export const ResetPassword = () => {
 
   return (
     <>
-      <div className="flex h-screen items-center justify-center dark:bg-[#212121] dark:text-white bg-white text-[#4f4f4f]">
-
+      <div className="flex h-screen items-center justify-center dark:bg-[#14181E] dark:text-white bg-white text-[#4f4f4f]">
         <div className="absolute top-25 left-35 z-10 flex justify-center items-center text-sm">
           <button
             className="w-12 h-12 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white font-semibold text-md dark:text-[#D9D9D9] cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white text-xl"
@@ -155,7 +154,7 @@ export const ResetPassword = () => {
               <div className="flex flex-col gap-4 w-full">
                 <div className="flex justify-center items-center flex-col gap-6 text-[#4f4f4f] dark:text-white">
                   <h1 className="text-4xl font-semibold ">Reset Password</h1>
-                  <p className="text-md">Enter your credentials to sign up</p>
+                  <p className="text-md">Enter your credentials to reset password</p>
                 </div>
 
                 <div>
@@ -222,11 +221,11 @@ export const ResetPassword = () => {
                       required
                     />
                     <div
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setEyeIcon(eyeIcon === "open" ? "close" : "open");
-                    }}
-                  >
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setEyeIcon(eyeIcon === "open" ? "close" : "open");
+                      }}
+                    >
                       {eyeIcon === "open" ? (
                         <i className="fa-solid fa-eye mr-4 ml-4"></i>
                       ) : (

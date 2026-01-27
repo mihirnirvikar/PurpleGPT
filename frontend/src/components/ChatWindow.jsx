@@ -138,7 +138,7 @@ export const ChatWindow = () => {
           <div className="flex items-center relative">
             <h1
               className="block w-full px-5 py-1 rounded-lg text-lg text-gray-800 hover:bg-gray-200 cursor-pointer
-             dark:text-white dark:hover:bg-[#3A3A3A]"
+             dark:text-white dark:hover:bg-[#45454563]"
               onClick={(e) => {
                 e.stopPropagation();
                 setActive(!active);
@@ -195,7 +195,7 @@ export const ChatWindow = () => {
 
           <div className="flex gap-3 items-center justify-center">
             <button
-              className="flex items-center justify-center w-9 h-9 p-1.5 text-xl rounded-full bg-gray-200 text-black hover:bg-gray-300 dark:bg-[#212121] dark:hover:bg-[#3A3A3A] dark:text-white cursor-pointer"
+              className="flex items-center justify-center w-9 h-9 p-1.5 text-xl rounded-full  text-black hover:bg-gray-300 dark:hover:bg-[#45454563] dark:text-white cursor-pointer"
               onClick={BtnHandler}
             >
               {theme === "dark" ? (
@@ -302,9 +302,11 @@ export const ChatWindow = () => {
         )}
 
         <div className="inputSection flex flex-col w-full min-w-0 max-w-3xl justify-center items-center">
-          <div className="w-full rounded-2xl p-1 bg-linear-to-r from-purple-500 to-pink-500">
+          <div
+            className={`w-full ${promptHeight ? "h-52" : "h-24"}  flex justify-center items-center rounded-2xl duration-300 bg-linear-to-r from-purple-500 to-pink-500`}
+          >
             <div
-              className={`w-full ${promptHeight ? "h-52" : "h-24"} px-2 py-1.5 flex flex-col justify-between items-center overflow-hidden dark:bg-[#14181E] bg-white rounded-xl cursor-text duration-300`}
+              className={`w-[calc(100%-6px)] mx-0.5 ${promptHeight ? "h-[calc(100%-6px)]" : "h-[calc(100%-6px)]"} px-2 py-1.5 flex flex-col justify-between items-center overflow-hidden dark:bg-[#14181E] bg-white rounded-xl cursor-text duration-300 `}
               onClick={() => {
                 inputRef.current.focus();
               }}
@@ -340,7 +342,7 @@ export const ChatWindow = () => {
 
               <div className="w-full flex justify-between items-center mt-1">
                 <button
-                  className="flex justify-center items-center text-lg dark:text-gray-400 w-10 h-10 ml-0.5 pt-0.5 rounded-lg hover:bg-[#E5E7EB] dark:hover:bg-[#45454563] cursor-pointer "
+                  className="flex justify-center items-center text-lg dark:text-gray-400 w-10 h-10 ml-0.5 pt-0.5 rounded-lg hover:bg-gray-300 dark:hover:bg-[#45454563] cursor-pointer "
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
@@ -349,7 +351,7 @@ export const ChatWindow = () => {
                 </button>
 
                 <button
-                  className="flex justify-center items-center text-xl dark:text-white w-10 h-10 pt-0.5 mr-0.5 rounded-lg hover:bg-[#E5E7EB] dark:hover:bg-[#45454563] cursor-pointer"
+                  className="flex justify-center items-center text-xl dark:text-white w-10 h-10 pt-0.5 mr-0.5 rounded-lg hover:bg-gray-300 dark:hover:bg-[#45454563] cursor-pointer"
                   onClick={fetchResponse}
                 >
                   <i className="fa-solid fa-paper-plane text-purple-500"></i>
