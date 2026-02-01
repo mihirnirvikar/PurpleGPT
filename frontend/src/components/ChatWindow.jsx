@@ -225,10 +225,10 @@ export const ChatWindow = () => {
                   <ul className="w-full">
                     <li
                       className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
-                      onClick={() => {
-                        localStorage.setItem("model", "1.0");
-                        setModel("1.0");
-                        setActive(false);
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate("/c/profile");
+                        
                       }}
                     >
                       <i className="fa-solid fa-user"></i> &nbsp;Profile
@@ -236,9 +236,7 @@ export const ChatWindow = () => {
                     <li
                       className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {
-                        localStorage.setItem("model", "2.0");
-                        setModel("2.0");
-                        setActive(false);
+                        
                       }}
                     >
                       <i className="fa-solid fa-gear"></i> &nbsp;Setting
@@ -246,9 +244,7 @@ export const ChatWindow = () => {
                     <li
                       className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {
-                        localStorage.setItem("model", "3.0");
-                        setModel("3.0");
-                        setActive(false);
+                        
                       }}
                     >
                       <i className="fa-solid fa-box-archive"></i> &nbsp;Archive
@@ -257,9 +253,7 @@ export const ChatWindow = () => {
                     <li
                       className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {
-                        localStorage.setItem("model", "3.0");
-                        setModel("3.0");
-                        setActive(false);
+                        
                       }}
                     >
                       {isLoggedIn ? (
@@ -303,10 +297,10 @@ export const ChatWindow = () => {
 
         <div className="inputSection flex flex-col w-full min-w-0 max-w-3xl justify-center items-center">
           <div
-            className={`w-full ${promptHeight ? "h-52" : "h-24"}  flex justify-center items-center rounded-2xl duration-300 bg-linear-to-r from-purple-500 to-pink-500`}
+            className={`w-full ${promptHeight ? "h-52 duration-300" : "h-24 duration-300"}  flex justify-center items-center rounded-2xl duration-300 bg-linear-to-r from-purple-500 to-pink-500`}
           >
             <div
-              className={`w-[calc(100%-6px)] mx-0.5 ${promptHeight ? "h-[calc(100%-6px)]" : "h-[calc(100%-6px)]"} px-2 py-1.5 flex flex-col justify-between items-center overflow-hidden dark:bg-[#14181E] bg-white rounded-xl cursor-text duration-300 `}
+              className={`w-[calc(100%-6px)] mx-0.5 ${promptHeight ? "h-[calc(100%-6px)]" : "h-[calc(100%-6px)]"} px-2 py-1.5 flex flex-col justify-between items-center overflow-hidden dark:bg-[#14181E] bg-white rounded-xl cursor-text  `}
               onClick={() => {
                 inputRef.current.focus();
               }}
@@ -323,15 +317,15 @@ export const ChatWindow = () => {
                   let value = e.target.value;
 
                   // Limit to 1000 characters
-                  if (value.length > 1000) {
-                    value = value.slice(0, 1000);
+                  if (value.length > 2000) {
+                    value = value.slice(0, 2000);
                   }
 
                   const lines = value.split("\n");
 
                   // Max 20 lines
-                  if (value.split("\n").length > 20) {
-                    value = lines.slice(0, 20).join("\n");
+                  if (value.split("\n").length > 40) {
+                    value = lines.slice(0, 40).join("\n");
                   }
 
                   setPrompt(value);

@@ -26,7 +26,7 @@ export const Error = () => {
         <div className="flex flex-col w-100">
           <div className="flex items-center justify-center">
             <img className="w-20 h-20" src="/favicon.svg" alt="Logo Image" />
-            <h1 className="text-5xl ml-4  font-semibold bg-gradient-to-r from-purple-400 via-purple-500 to-pink-500 bg-clip-text text-transparent ">
+            <h1 className="text-5xl ml-4  font-semibold bg-linear-to-r from-purple-400 via-purple-500 to-pink-500 bg-clip-text text-transparent ">
               PurpleGPT
             </h1>
           </div>
