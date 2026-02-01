@@ -17,7 +17,7 @@ export const Login = () => {
     useContext(AppContext);
 
   const formSubmitHandler = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
 
     try {
       if (formType === "signup") {
@@ -87,7 +87,7 @@ export const Login = () => {
         </div>
 
         <div className="justify-center items-center flex flex-col">
-          <form onSubmit={formSubmitHandler}>
+          <form>
             <div className="w-full xl:w-120 lg:w-100 md:w-80 sm:w-80 flex flex-col">
               {formType === "signup" ? (
                 <div className="flex flex-col gap-4 w-full">
@@ -173,6 +173,7 @@ export const Login = () => {
                   <button
                     className="w-full h-13 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white dark:text-[#D9D9D9] mt-12 cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white"
                     type="submit"
+                    onClick={formSubmitHandler}
                   >
                     <p className="text-lg font-semibold">
                       {formType === "signup" ? "Sign Up" : "Sign In"}
