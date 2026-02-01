@@ -32,6 +32,12 @@ export const Sidebar = () => {
   const [inputValue, setInputValue] = useState("");
 
   const fetchHistory = async () => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      toast.error("Session expired, please login again");
+      return;
+    }
+
     if (!isLoggedIn) {
       return;
     }
@@ -49,15 +55,21 @@ export const Sidebar = () => {
       // toast.success("History Fetched Successfully");
     } catch (error) {
       console.log(error);
-      // toast.error("Failed to fetch history");
+      toast.error("Failed to fetch history");
     }
   };
 
   useEffect(() => {
-    fetchHistory();
-  }, [reply, isLoggedIn]);
+    if (isLoggedIn) {
+      fetchHistory();
+    }
+  }, [isLoggedIn]);
 
   const handleDelete = async () => {
+    if (!activeThreadId) {
+      toast.error("Please select a thread to delete");
+      return;
+    }
     console.log("Deleting thread:", activeThreadId);
     try {
       const { data } = await api.delete(`/threads/${activeThreadId}`);
@@ -196,12 +208,13 @@ export const Sidebar = () => {
                       ? "bg-[#E5E7EB] dark:bg-[#3A3A3A]"
                       : "hover:bg-[#E5E7EB] dark:hover:bg-[#3A3A3A]"
                   } dark:text-white mb-1`}
-                  key={index}
+                  key={chat.threadId}
                   onClick={() => {
                     setNewChat(false);
                     setInActive(false);
                     setActiveThreadId(null);
                     setPrevChatsThreadId(chat?.threadId);
+                    setThreadId(chat?.threadId);
                   }}
                 >
                   {renameThreadId === chat.threadId ? (
@@ -240,7 +253,7 @@ export const Sidebar = () => {
                   )}
 
                   {activeThreadId === chat.threadId && (
-                    <div className="z-50 absolute top-5 right-0 w-30 bg-[#FFFFFF] dark:bg-[#424242] p-1 rounded-lg dark:text-white]">
+                    <div className="z-50 absolute top-10 right-0 w-30 bg-[#FFFFFF] dark:bg-[#424242] p-1 rounded-lg dark:text-white]">
                       <ul className="w-full ">
                         <li
                           className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"

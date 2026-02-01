@@ -42,10 +42,8 @@ export const Chat = () => {
 
     const fetchHistoryChats = async () => {
       try {
-        const { data } = await api.get(
-          `/threads/${prevChatsThreadId}`
-        );
-        
+        const { data } = await api.get(`/threads/${prevChatsThreadId}`);
+
         setPrevChats(data.messages);
         setNewChat(false);
         setReply(null);
@@ -88,7 +86,7 @@ export const Chat = () => {
                 </ReactMarkDown>
               </div>
             </div>
-          )
+          ),
         )}
 
         {prevChats?.length > 0 && (
@@ -102,6 +100,17 @@ export const Chat = () => {
             </div>
           </div>
         )}
+
+        {/* {reply && (
+          <div className="flex justify-start">
+            <div className="bg-gray-200 dark:bg-[#2B2D31] px-4 py-2 rounded-lg rounded-bl-none max-w-full">
+              <ReactMarkDown rehypePlugins={[rehypeHighlight]}>
+                {latestReply}
+              </ReactMarkDown>
+            </div>
+          </div>
+        )} */}
+
       </div>
     </>
   );

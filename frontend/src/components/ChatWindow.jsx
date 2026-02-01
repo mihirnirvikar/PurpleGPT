@@ -28,6 +28,7 @@ export const ChatWindow = () => {
     isLoggedIn,
     setIsLoggedIn,
     setFormType,
+    prevChatsThreadId,
   } = useContext(AppContext);
 
   const [active, setActive] = useState(false);
@@ -56,16 +57,26 @@ export const ChatWindow = () => {
   };
 
   const fetchResponse = async () => {
+    if (loading) return;
+
     if (!prompt.trim()) return;
-    let currentThreadId = threadId;
-    if (!currentThreadId) {
-      currentThreadId = uuidv4();
-      setThreadId(currentThreadId);
+
+    // let currentThreadId = threadId;
+    // if (!currentThreadId) {
+    //   currentThreadId = uuidv4();
+    //   setThreadId(currentThreadId);
+    // }
+
+    if (!threadId && prevChatsThreadId) {
+      setThreadId(prevChatsThreadId);
     }
+
+    const currentThreadId = threadId || uuidv4();
+    if (!threadId) setThreadId(currentThreadId);
 
     setLoading(true);
     try {
-      if (userData) {
+      if (isLoggedIn) {
         const { data } = await api.post("/chat", {
           threadId: currentThreadId,
           message: prompt,
@@ -90,9 +101,12 @@ export const ChatWindow = () => {
       if (error.response?.status === 403) {
         toast.error(error.response.data.message);
         navigate("/c/login");
+      }else{
+        toast.error("Something went wrong. please try again later.");
       }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -116,6 +130,7 @@ export const ChatWindow = () => {
       setUserData(null);
       setNewChat(true);
       setPrevChats([]);
+      setThreadId(null);
       toast.success(data.message);
       navigate("/c/login");
     } catch (error) {
@@ -228,33 +243,26 @@ export const ChatWindow = () => {
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate("/c/profile");
-                        
                       }}
                     >
                       <i className="fa-solid fa-user"></i> &nbsp;Profile
                     </li>
                     <li
                       className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
-                      onClick={() => {
-                        
-                      }}
+                      onClick={() => {}}
                     >
                       <i className="fa-solid fa-gear"></i> &nbsp;Setting
                     </li>
                     <li
                       className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
-                      onClick={() => {
-                        
-                      }}
+                      onClick={() => {}}
                     >
                       <i className="fa-solid fa-box-archive"></i> &nbsp;Archive
                     </li>
 
                     <li
                       className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
-                      onClick={() => {
-                        
-                      }}
+                      onClick={() => {}}
                     >
                       {isLoggedIn ? (
                         <div onClick={handleLogout}>
