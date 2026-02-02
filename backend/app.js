@@ -15,13 +15,18 @@ const chatRouter = require("./routes/chat.js");
 const userRouter = require("./routes/userRoutes");
 const guestRouter = require("./routes/guestRoutes");
 
-
-app.use(cors({
-  origin: ["http://localhost:5173", "https://purplegpt.netlify.app/", "https://purple-gpt.vercel.app/"]
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
+app.use(
+  cors({
+    origin: [
+      process.env.FRONTEND_LOCALHOST_URL,
+      process.env.FRONTEND_NETLIFY_URL,
+      process.env.FRONTEND_VERCEL_URL,
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -29,7 +34,6 @@ app.use(express.static("public"));
 
 // Connect to MongoDB
 connectMongoDB();
-
 
 // Routes for chat
 app.use("/", chatRouter);
