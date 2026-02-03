@@ -46,7 +46,7 @@ const register = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
-      domain: process.env.NODE_ENV === "production" ? undefined : "localhost",
+      // domain: process.env.NODE_ENV === "production" ? undefined : "localhost",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -104,7 +104,7 @@ const login = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
-      domain: process.env.NODE_ENV === "production" ? undefined : "localhost",
+      // domain: process.env.NODE_ENV === "production" ? undefined : "localhost",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -344,7 +344,7 @@ const resetPassword = async (req, res) => {
 const isAccountVerified = async (req, res) => {
   const { userId } = req.user;
 
-  if (!userId) {za
+  if (!userId) {
     return res.status(401).json({ message: "Unauthorized request" });
   }
 
