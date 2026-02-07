@@ -152,7 +152,7 @@ export const ChatWindow = () => {
         <div className="headerSection flex z-10 justify-between items-center w-full sticky top-0 bg-white dark:bg-[#14181E] ">
           <div className="flex items-center relative">
             <h1
-              className="block w-full px-5 py-1 rounded-lg text-lg text-gray-800 hover:bg-gray-200 cursor-pointer
+              className="block w-full px-4 py-1 rounded-lg text-lg text-gray-800 hover:bg-gray-200 cursor-pointer
              dark:text-white dark:hover:bg-[#45454563]"
               onClick={(e) => {
                 e.stopPropagation();
@@ -171,10 +171,10 @@ export const ChatWindow = () => {
             </h1>
 
             {active && (
-              <div className="z-990 absolute top-10 left-0 w-44 bg-[#F9F9F9] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
+              <div className="z-990 absolute top-10 left-0 w-40 bg-[#F9F9F9] dark:bg-[#424242] p-1 rounded-lg dark:text-white text-center">
                 <ul className="w-full">
                   <li
-                    className="px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                    className=" py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                     onClick={() => {
                       localStorage.setItem("model", "1.0");
                       setModel("1.0");
@@ -184,7 +184,7 @@ export const ChatWindow = () => {
                     PurpleGPT 1.0
                   </li>
                   <li
-                    className="px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                    className=" py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                     onClick={() => {
                       localStorage.setItem("model", "2.0");
                       setModel("2.0");
@@ -194,7 +194,7 @@ export const ChatWindow = () => {
                     PurpleGPT 2.0
                   </li>
                   <li
-                    className="px-7 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                    className=" py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                     onClick={() => {
                       localStorage.setItem("model", "3.0");
                       setModel("3.0");
@@ -236,10 +236,10 @@ export const ChatWindow = () => {
               </button>
 
               {userIconActive && (
-                <div className="z-990 absolute top-12 right-5 w-36 bg-[#F9F9F9] dark:bg-[#424242] p-1 rounded-lg dark:text-white">
+                <div className="z-990 absolute top-12 right-5 w-30 bg-[#F9F9F9] dark:bg-[#424242] p-1 rounded-lg dark:text-white ">
                   <ul className="w-full">
                     <li
-                      className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                      className="px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate("/c/profile");
@@ -248,20 +248,20 @@ export const ChatWindow = () => {
                       <i className="fa-solid fa-user"></i> &nbsp;Profile
                     </li>
                     <li
-                      className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                      className="px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {}}
                     >
                       <i className="fa-solid fa-gear"></i> &nbsp;Setting
                     </li>
                     <li
-                      className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                      className="px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {}}
                     >
                       <i className="fa-solid fa-box-archive"></i> &nbsp;Archive
                     </li>
 
                     <li
-                      className="px-6 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
+                      className="px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#2d2d2d] cursor-pointer"
                       onClick={() => {}}
                     >
                       {isLoggedIn ? (

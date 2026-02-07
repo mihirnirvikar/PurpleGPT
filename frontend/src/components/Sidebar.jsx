@@ -276,7 +276,7 @@ export const Sidebar = () => {
                         </li>
 
                         <li
-                          className="px-2 py-1 rounded hover:bg-[#e32a2a38] text-red-400 dark:hover:bg-[#e32a2a38] cursor-pointer"
+                          className="px-2 py-1 rounded hover:bg-[#e32a2a38] text-red-400 dark:hover:bg-[#e32a2a2c] cursor-pointer"
                           onClick={(e) => {
                             handleDelete();
                             e.stopPropagation();

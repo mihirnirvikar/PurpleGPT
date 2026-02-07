@@ -298,11 +298,11 @@ const sendResetOtp = async (req, res) => {
 const resetPassword = async (req, res) => {
   const { email, otp, password, confirmPassword } = req.body;
 
-  if (!email || !otp || !password, !confirmPassword) {
+  if ((!email || !otp || !password, !confirmPassword)) {
     return res.status(400).json({ message: "All fields are required!" });
   }
 
-  if(password !== confirmPassword) {
+  if (password !== confirmPassword) {
     return res.status(400).json({ message: "Passwords do not match!" });
   }
 
