@@ -58,7 +58,7 @@ const register = async (req, res) => {
       text: `Hi ${name},\n\nWelcome to PurpleGPT! We're excited to have you join our community.\n\nBest,\nPurpleGPT Team`,
     };
 
-    await transporter.sendMail(mailOptions);
+    transporter.sendMail(mailOptions).catch(console.log(error));
 
     return res.status(201).json({
       message: "User registered successfully",
