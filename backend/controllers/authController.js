@@ -38,7 +38,7 @@ const register = async (req, res) => {
 
     // save the user
     const result = await user.save();
-    console.log(result);
+    // console.log(result);
 
     // Refresh token saves in cookie
     res.cookie("refreshToken", refreshToken, {
@@ -58,7 +58,7 @@ const register = async (req, res) => {
       text: `Hi ${name},\n\nWelcome to PurpleGPT! We're excited to have you join our community.\n\nBest,\nPurpleGPT Team`,
     };
 
-    transporter.sendMail(mailOptions).catch(console.log(error));
+    transporter.sendMail(mailOptions).catch(console.error);
 
     return res.status(201).json({
       message: "User registered successfully",
