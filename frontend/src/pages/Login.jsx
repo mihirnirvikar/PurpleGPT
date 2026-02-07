@@ -187,10 +187,10 @@ export const Login = () => {
                   <div
                     className="cursor-pointer hover:underline px-1"
                     onClick={() => {
-                      navigate("/");
+                      navigate("/c");
                     }}
                   >
-                    <p>Back to home?</p>
+                    <p>Back to chats?</p>
                   </div>
                   <div
                     className="cursor-pointer hover:underline"

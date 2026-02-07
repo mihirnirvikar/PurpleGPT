@@ -179,10 +179,23 @@ export const ResetPassword = () => {
                         onClick={sendEmailOtpHandler}
                         type="button"
                       >
-                        <p className="text-md font-semibold">Submit</p>
+                        Send
                       </button>
                     )}
                   </div>
+                  {!otpForm && (
+                    <div className="flex justify-between items-center mt-2 text-sm dark:text-[#A3A3A3]">
+                      <div></div>
+                      <p
+                        className="hover:underline"
+                        onClick={() => {
+                          navigate("/c/login");
+                        }}
+                      >
+                        Back to Login?
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -276,8 +289,11 @@ export const ResetPassword = () => {
                   </div>
 
                   <div>
-                    <button className="w-full h-13 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white dark:text-[#D9D9D9] mt-12 cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white">
-                      <p className="text-lg font-semibold">Submit</p>
+                    <button
+                      className="w-full h-13 dark:bg-[#303030] border border-[#D9D9D9] rounded-lg outline-[#D9D9D9] bg-[#4f4f4f] text-white dark:text-[#D9D9D9] mt-12 cursor-pointer dark:hover:bg-[#4f4f4f] hover:bg-[#404040] hover:text-white dark:focus:bg-[#4f4f4f] focus:bg-[#404040]  focus:text-white"
+                      type="submit"
+                    >
+                      Submit
                     </button>
                   </div>
                 </div>

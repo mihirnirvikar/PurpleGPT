@@ -109,14 +109,14 @@ const login = async (req, res) => {
     });
 
     // send welcome back mail
-    // const mailOptions = {
-    //   from: process.env.SENDER_EMAIL,
-    //   to: email,
-    //   subject: "Welcome back to PurpleGPT",
-    //   text: `Hi ${user.name},\n\nWelcome back to PurpleGPT! We're glad you're back.\n\nBest,\nPurpleGPT Team`,
-    // };
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL,
+      to: email,
+      subject: "Welcome back to PurpleGPT",
+      text: `Hi ${user.name},\n\nWelcome back to PurpleGPT! We're glad you're back.\n\nBest,\nPurpleGPT Team`,
+    };
 
-    // await transporter.sendMail(mailOptions);
+    transporter.sendMail(mailOptions).catch(console.error);
 
     return res.status(200).json({
       message: "User logged in successfully",
@@ -208,7 +208,7 @@ const sendVerifyOtp = async (req, res) => {
       text: `Hi ${user.name},\n\nYour verification code is ${otp}\n\nBest,\nPurpleGPT Team`,
     };
 
-    await transporter.sendMail(mailOptions);
+    transporter.sendMail(mailOptions).catch(console.error)
 
     return res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
@@ -285,7 +285,7 @@ const sendResetOtp = async (req, res) => {
       text: `Hi ${user.name},\n\nYour password reset verification code is ${otp}\n\nBest,\nPurpleGPT Team`,
     };
 
-    await transporter.sendMail(mailOptions);
+    transporter.sendMail(mailOptions).catch(console.error)
 
     return res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
@@ -303,7 +303,7 @@ const resetPassword = async (req, res) => {
   }
 
   if (password !== confirmPassword) {
-    return res.status(400).json({ message: "Passwords do not match!" });
+    return res.status(400).json({ message: "Passwords does not match" });
   }
 
   try {
@@ -332,9 +332,9 @@ const resetPassword = async (req, res) => {
       text: `Hi ${user.name},\n\nYour password reset successfully\n\nBest,\nPurpleGPT Team`,
     };
 
-    await transporter.sendMail(mailOptions);
+    transporter.sendMail(mailOptions).catch(console.error)
 
-    return res.status(200).json({ message: "Reset Password Successfully" });
+    return res.status(200).json({ message: "Reset Password Successfully, Please Login" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
