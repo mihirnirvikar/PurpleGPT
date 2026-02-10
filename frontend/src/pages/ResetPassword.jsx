@@ -16,6 +16,8 @@ export const ResetPassword = () => {
   const [otpForm, setOtpForm] = useState(false);
   const [otp, setOtp] = useState(Array(6).fill(""));
 
+  const {setFormType} = useContext(AppContext);
+
   const handleInput = (e, index) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
     if (!value) return;
@@ -84,6 +86,7 @@ export const ResetPassword = () => {
         confirmPassword: confirmPassword,
       });
       console.log(data);
+      setFormType("signin");
       navigate("/c/login");
       toast.success(data.message);
     } catch (error) {
@@ -184,11 +187,20 @@ export const ResetPassword = () => {
                     )}
                   </div>
                   {!otpForm && (
-                    <div className="flex justify-between items-center mt-2 text-sm dark:text-[#A3A3A3]">
-                      <div></div>
+                    <div className="flex justify-between items-center mt-2 text-sm dark:text-[#A3A3A3] px-2">
                       <p
                         className="hover:underline"
                         onClick={() => {
+                          setFormType("signup");
+                          navigate("/c/login");
+                        }}
+                      >
+                        Back to Signup?
+                      </p>
+                      <p
+                        className="hover:underline"
+                        onClick={() => {
+                          setFormType("signin");
                           navigate("/c/login");
                         }}
                       >
@@ -277,10 +289,19 @@ export const ResetPassword = () => {
                   </div>
 
                   <div className="flex justify-between items-center mt-2 text-sm">
-                    <div></div>
                     <div
                       className="dark:text-[#A3A3A3] text-[#4f4f4f] cursor-pointer hover:underline"
                       onClick={() => {
+                        setFormType("signup");
+                        navigate("/c/login");
+                      }}
+                    >
+                      <p>Back to signup?</p>
+                    </div>
+                    <div
+                      className="dark:text-[#A3A3A3] text-[#4f4f4f] cursor-pointer hover:underline"
+                      onClick={() => {
+                        setFormType("signin");
                         navigate("/c/login");
                       }}
                     >

@@ -131,6 +131,7 @@ export const ChatWindow = () => {
       setNewChat(true);
       setPrevChats([]);
       setThreadId(null);
+      setFormType("signin");
       toast.success(data.message);
       navigate("/c/login");
     } catch (error) {
