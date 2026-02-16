@@ -21,6 +21,7 @@ app.use(
       process.env.FRONTEND_LOCALHOST_URL,
       process.env.FRONTEND_NETLIFY_URL,
       process.env.FRONTEND_VERCEL_URL,
+      process.env.FRONTEND_PORTFOLIO_URL
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
