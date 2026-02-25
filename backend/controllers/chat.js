@@ -75,17 +75,15 @@ const Chat = async (req, res) => {
     }
 
     const assistantResponse = await main(message);
-    const aiResponse = assistantResponse.candidates[0]?.content?.parts[0]?.text;
+    
     thread.messages.push({
       role: "assistant",
-      content: aiResponse,
+      content: assistantResponse,
     });
     thread.updatedAt = new Date();
 
     const result = await thread.save();
-    res
-      .status(200)
-      .json({ resp: assistantResponse?.candidates[0]?.content.parts[0]?.text });
+    res.status(200).json({ resp: assistantResponse });
   } catch (error) {
     console.log(error);
   }
@@ -108,7 +106,7 @@ const RenameThread = async (req, res) => {
 
     thread.title = newTitle;
     await thread.save();
-    
+
     return res.status(200).json({ message: "Thread renamed successfully" });
   } catch (error) {
     console.log(error);

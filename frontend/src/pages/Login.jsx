@@ -26,7 +26,7 @@ export const Login = () => {
           email: email,
           password: password,
         });
-        console.log(data);
+        // console.log(data);
         saveAccessToken(data.accessToken);
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", true);
@@ -37,7 +37,7 @@ export const Login = () => {
           email: email,
           password: password,
         });
-        console.log(data);
+        // console.log(data);
         saveAccessToken(data.accessToken);
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", true);

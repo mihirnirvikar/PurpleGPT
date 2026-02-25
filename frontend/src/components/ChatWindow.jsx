@@ -84,7 +84,7 @@ export const ChatWindow = () => {
         // console.log(data.resp);
         setReply(data.resp);
         setNewChat(false);
-        console.log(data);
+        // console.log(data);
       } else {
         const { data } = await guestApi.post("/api/guest/guest-chat", {
           threadId: currentThreadId,
